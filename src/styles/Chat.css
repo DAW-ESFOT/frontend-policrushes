@@ -1,0 +1,24 @@
+#user_1{
+    background: #fff;
+    border:  rgba(255, 255, 255, 0.432) 1px solid;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 10px;
+}
+
+#user_2{
+    background: #E094A1;
+    border:  rgba(230, 101, 101, 0.432) 1px solid;
+    border-radius: 20px;
+    text-align: right;
+    margin: 10px;
+    padding: 10px;
+}
+
+.box_message{
+    width: 100px;
+    height: 20px;
+    margin: 5px;
+    display: inline;
+    background: red;
+}

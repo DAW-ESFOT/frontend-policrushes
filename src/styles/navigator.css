@@ -1,0 +1,98 @@
+
+.content{
+    border: rgb(128, 81, 81) 2px solid;
+    height: 650px;
+    width: 975px;
+    margin: 50px 100px;
+    display: flex;
+    font-size: 25px;
+  }
+  
+  .img_user{
+    width:70px;
+    height:70px;
+    border-radius: 100%;
+    margin: 20px;
+  }
+  
+  .chat_list{
+    width: 45%;
+    border-right: rgb(68, 66, 66) 1px solid;
+  }
+  
+  .user_list{
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 400px;
+  }
+  
+  .user_chat{
+    display: flex;
+    border-bottom: rgb(68, 66, 66) 2px solid;
+  }
+  
+  .chat{
+    display: flex;
+    width: 100%;
+    border-bottom: rgb(68, 66, 66) 2px solid;
+  }
+  
+  .perfil{
+    background: #E094A1;
+    display: flex;
+  }
+  
+  button{
+    width: 100px;
+    height: 40px;
+    margin: 30px;
+    font-size: 15px;
+    border-radius: 20px;
+    float: right;
+  }
+  
+  .send{
+    position: relative;
+    width: 80px;
+    font-size: 20px;
+    background: #E094A1;
+    margin: 0px;
+  }
+  
+  .chat_container{
+    height: 350px;
+    width: 80%;
+    padding: 20px;
+    margin: 30px;
+    display: block;
+    background: #ccc;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+  
+  .text{
+    margin: 20px;
+  }
+  
+  .textarea{
+    height: 50px;
+    width: 75%;
+    font-size: 20px;
+    margin: 0 auto;
+  }
+  
+  .cont_scroll{
+    overflow: auto;
+  }
+  
+  .chat_container::-webkit-scrollbar, .user_list::-webkit-scrollbar{
+    width: 7px;
+  }
+  
+  .chat_container::-webkit-scrollbar, .user_list::-webkit-scrollbar-thumb{
+    width: 8px;
+    background: #e23d8a;
+    border-radius: 20px;
+  }
+  
+  
