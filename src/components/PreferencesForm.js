@@ -1,14 +1,24 @@
-import React from "react";
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import ImageUpload from "./ImageUpload";
 
 
 export default function PreferencesForm() {
+    const [image, setImage] = useState(null);
+
+    useEffect(
+        () => {
+            if (!image) return;
+            console.log('image selected', image);
+        }, [image]
+    )
+
+    const handleImage = image => {
+        setImage(image);
+    }
 
     return (
-
-        <div>Preferences form</div>
+        <>
+            <ImageUpload handleImage={handleImage} cardName="Input Image" />
+        </>
     );
 };
