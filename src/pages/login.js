@@ -8,7 +8,7 @@ const Login = () => {
   const handleLogin = async (data) => {
     try {
       const userData = await Auth.login({
-        email: "ronny.cajas@epn.edu.ec",
+        email: "nolan45@hotmail.com",
         password: "123123",
       });
 
