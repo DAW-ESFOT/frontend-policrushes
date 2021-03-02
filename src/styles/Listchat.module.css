@@ -1,0 +1,43 @@
+  
+  .user_list{
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 400px;
+    overflow: scroll
+  } 
+  
+  .user_chat{
+    display: flex;
+    border-bottom: rgb(68, 66, 66) 2px solid;
+  }
+  
+  .img_user{
+    width:70px;
+    height:70px;
+    border-radius: 100%;
+    margin: 20px;
+  }
+  
+  .button{
+    width: 100px;
+    height: 40px;
+    margin: 30px;
+    font-size: 15px;
+    border-radius: 20px;
+    float: left;
+  }
+  
+  .cont_scroll{
+    overflow: scroll;
+  }
+  
+  .user_list::-webkit-scrollbar{
+    width: 7px;
+  }
+  
+  .user_list::-webkit-scrollbar-thumb{
+    width: 8px;
+    background: #e23d8a;
+    border-radius: 20px;
+  }
+  

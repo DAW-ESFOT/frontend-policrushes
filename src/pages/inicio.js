@@ -15,6 +15,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ClearIcon from '@material-ui/icons/Clear';
 import MessageIcon from '@material-ui/icons/Message';
+import Listchat from './Listchat';
 
 
 function TabPanel(props) {
@@ -121,7 +122,7 @@ const Inicio = () =>{
 
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            Item 2
+                            <Listchat/>
                         </TabPanel>
                     </Paper>
                 </Grid>
