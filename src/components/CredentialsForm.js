@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CredentialsForm({ handleRegister }) {
+export default function CredentialsForm({ switchScreen }) {
   const classes = useStyles();
   const { register, handleSubmit, watch, errors } = useForm();
   const onSubmit = (data) => console.log(data);
@@ -118,7 +118,7 @@ export default function CredentialsForm({ handleRegister }) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleRegister}
+            onClick={switchScreen}
           >
             Registrarse
           </Button>

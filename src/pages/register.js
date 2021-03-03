@@ -5,16 +5,17 @@ import PreferencesForm from "../components/PreferencesForm";
 export default function Register() {
   const [step, setStep] = useState("credentials");
 
-  const handleRegister = () => {
-    setStep("preferences");
+  const switchScreen = () => {
+    const newStep = step == "credentials" ? "preferences" : "credentials";
+    setStep(newStep);
   };
 
   return (
     <>
       {step === "credentials" ? (
-        <CredentialsForm handleRegister={handleRegister} />
+        <CredentialsForm switchScreen={switchScreen} />
       ) : (
-        <PreferencesForm />
+        <PreferencesForm switchScreen={switchScreen} />
       )}
     </>
   );

@@ -16,8 +16,8 @@ import blue from "@material-ui/core/colors/blue";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
-  form: {
-    margin:"auto 100px"
+  root: {
+    padding: "auto 100px",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -26,18 +26,14 @@ const useStyles = makeStyles((theme) => ({
   field: {
     margin: 20,
   },
-  slice: {
-  },
   button: {
     color: blue[900],
     margin: 10,
   },
-  confirm:{
-    marginLeft:30 ,
-  }
+  confirm: {},
 }));
 
-export default function PreferencesForm() {
+export default function PreferencesForm({switchScreen}) {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = React.useState(new Date());
 
@@ -65,12 +61,11 @@ export default function PreferencesForm() {
 
   return (
     <Grid classes={classes.root} container>
-      <Grid container className={classes.form}>
+      <Grid container>
         <Grid
           container
           direction="column"
-          alignItems="left"
-          className={classes.slice}
+          alignItems="center"
           item
           xs={12}
           sm={6}
@@ -113,8 +108,7 @@ export default function PreferencesForm() {
         <Grid
           container
           direction="column"
-          alignItems="left"
-          className={classes.slice}
+          alignItems="center"
           item
           xs={12}
           sm={6}
@@ -150,9 +144,38 @@ export default function PreferencesForm() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid className={classes.confirm}>
-            <Button variant="contained">Confirmar</Button>
-          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        alignItems="center"
+        style={{ height: 100, width: "100%" }}
+      >
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          item
+          xs={12}
+          sm={6}
+        ></Grid>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          item
+          xs={12}
+          sm={6}
+        >
+          <Button onClick={switchScreen} variant="contained" style={{ marginRight: 12 }}>
+            Volver
+          </Button>
+
+          <Button variant="contained">
+            Confirmar
+          </Button>
         </Grid>
       </Grid>
     </Grid>
