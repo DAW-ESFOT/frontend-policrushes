@@ -130,7 +130,3 @@ export default function CredentialsForm({ switchScreen }) {
     </Container>
   );
 }
-
-CredentialsForm.propTypes = {
-  handleRegister: PropTypes.func.isRequired,
-};

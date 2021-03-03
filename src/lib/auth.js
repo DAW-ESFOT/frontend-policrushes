@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api, publicApi } from "./api";
 
 async function login(data) {
   const response = await api.post("/login", data);
@@ -11,6 +11,21 @@ async function login(data) {
   return response;
 }
 
+async function register(data) {
+  const { name } = data;
+  publicApi
+    .post("/register", {
+      name,
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
+
 export const Auth = {
   login,
+  register,
 };
