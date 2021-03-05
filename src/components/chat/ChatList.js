@@ -11,13 +11,19 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     overflowY: "scroll",
-    height: 350,
-    width: 500,
-    maxWidth: '40ch',
+    height: 450,
+    width: "100%",
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
     display: 'inline',
+  },
+  itemuser: {
+    height: 110,
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   },
 }));
 
@@ -32,7 +38,7 @@ const chats = [
     messages: [
       {
         owner: "user",
-        content: "hola joss",
+        content: "hola ... ",
         date: "hoy",
       },
       {
@@ -72,7 +78,7 @@ const chats = [
     messages: [
       {
         owner: "user",
-        content: "hola joss",
+        content: "hola que te cuentas?",
         date: "hoy",
       },
       {
@@ -112,7 +118,7 @@ const chats = [
     messages: [
       {
         owner: null,
-        content: "pasa el deber llave.",
+        content: "pasa el deber llave....",
         date: "hoy",
       },
       {
@@ -157,9 +163,9 @@ export default function ChatList() {
       {
         chats.map((chat) => (
           <>
-            <ListItem key={chat.user.id} alignItems="flex-start" button onClick={ () => handleView(chat.user.id,chat.user.name, chat.user.photoUrl, chat.messages )} >
+            <ListItem className={classes.itemuser} key={chat.user.id} alignItems="flex-start" button onClick={ () => handleView(chat.user.id,chat.user.name, chat.user.photoUrl, chat.messages )} >
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src={chat.user.photoUrl} />
+                <Avatar className={classes.large} alt="Remy Sharp" src={chat.user.photoUrl} />
               </ListItemAvatar>
               <ListItemText
                 secondary={

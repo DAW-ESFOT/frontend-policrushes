@@ -11,17 +11,18 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
+import Card from '@material-ui/core/Card';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: 600,
+    width: "100%",
     background: "#968e8e"
   },
   demo: {
     height: 400,
-    width: 600,
+    width: "100%",
     overflowY: "scroll",
     backgroundColor: theme.palette.background.paper,
   },
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     float: "rigth",
     width: theme.spacing(7),
     height: theme.spacing(7),
+    margin: "0 auto",
   }
 }));
 
@@ -105,12 +107,12 @@ const chats = [
       },
       {
         owner: "user",
-        content: "En casos excepcionales, es posible que desees que un componente se oculte a sí mismo aunque haya sido renderizado por otro componente. Para hacer esto, devuelve null en lugar del resultado de renderizado",
+        content: "||En casos excepcionales, es posible que desees que un componente se oculte a sí mismo aunque haya sido renderizado por otro componente. Para hacer esto, devuelve null en lugar del resultado de renderizado",
         date: "hoy",
       },
       {
         owner: null,
-        content: "Al igual que en JavaScript, depende de ti elegir un estilo apropiado en base a lo que tu y tu equipo consideran más legible. Recuerda también que cuando las condiciones se vuelven demasiado complejas, puede ser un buen momento para extraer un componente.",
+        content: "nmbm . Al igual que en JavaScript, depende de ti elegir un estilo apropiado en base a lo que tu y tu equipo consideran más legible. Recuerda también que cuando las condiciones se vuelven demasiado complejas, puede ser un buen momento para extraer un componente.",
         date: "hoy",
       },
       {
@@ -136,26 +138,15 @@ const ChatBox = ({}) => {
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src={chats[0].user.photoUrl} className={classes.large}/>
-            </ListItemAvatar>
-            <ListItemText 
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    <h1 className={classes.username}>{chats[0].user.name}</h1>
-                  </Typography>
-                </React.Fragment>
-              } 
-            />
-          </ListItem>
+        <Grid item xs={12} >
+          <div>
+            <Card variant="outlined" className='box'>
+              <img className='img-users' src={chats[0].user.photoUrl} className='avatar-user'  />
+              <p className='font-name'>
+              <strong>{chats[0].user.name}</strong>
+              </p>
+            </Card>
+          </div>
           <div className={classes.demo}>
             <List >
               {
@@ -186,27 +177,22 @@ const ChatBox = ({}) => {
         </Grid>
       </Grid>
       <form className={classes.form} noValidate autoComplete="off">
-        <Grid >
-          <Grid >
-            <TextField
-            className={classes.text} 
-            id="filled-multiline-static"
-            label="Mensaje"
-            multiline
-            rows={2}
-            variant="filled"
-          />
-          </Grid>
-          <Grid >
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              endIcon={<SendIcon />}
-            >
-            </Button>
-          </Grid>
-        </Grid>
+        <TextField
+          className={classes.text} 
+          id="filled-multiline-static"
+          label="Mensaje"
+          multiline
+          rows={2}
+          cols={30}
+          variant="filled"
+        />
+        <Button              
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          endIcon={<SendIcon />}
+        >
+        </Button>
       </form>
     </div>
   );
