@@ -74,7 +74,7 @@ export default function GenrePicker({
         {genres?.map((genre) => {
           const isSelected = _isSelected(genre);
           return (
-            <div key={genre} classname={classes.buttonWrapper}>
+            <div key={genre} className={classes.buttonWrapper}>
               <Button
                 onClick={() => {
                   onItemClick(genre);
