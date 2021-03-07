@@ -15,8 +15,10 @@ export default function Register() {
     <>
       {step === "credentials" ? (
         <CredentialsForm
+          credentials={credentials}
           onConfirm={(credentials) => {
             setCredentials(credentials);
+            console.log("credentials:", credentials);
             switchScreen();
           }}
         />

@@ -18,6 +18,9 @@ import GenrePicker, { Trigger } from "../components/GenrePicker";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import { Auth } from "../lib/auth";
 import { usePosition } from "../lib/geolocation";
+import ErrorMessages from "./ErrorMessages";
+import Alert from "@material-ui/lab/Alert";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 const intercalate = (array, element) => {
   const isSelected = array.includes(element);
@@ -48,15 +51,18 @@ const useStyles = makeStyles((theme) => ({
 export default function PreferencesForm({ onBack, credentials }) {
   const classes = useStyles();
   const { register, errors, handleSubmit, setValue } = useForm();
-  const { latitude, longitude, error } = usePosition();
+  const { position, getCurrentPosition } = usePosition();
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date(2001, 2, 2));
+  const [selectedDate, setSelectedDate] = useState(null);
   const [image, setImage] = useState(null);
   const [gender, setGender] = useState("");
   const [preferredGender, setPreferredGender] = useState("");
   const [selectedMusic, selectMusic] = useState([]);
   const [selectedMovies, selectMovies] = useState([]);
   const [ageRange, setAgeRange] = useState([20, 37]);
+  const [status, setStatus] = useState("none");
+
+  const [messages, setMessages] = useState(null);
 
   //genres modals
   const [music, showMusic] = useState(false);
@@ -67,6 +73,27 @@ export default function PreferencesForm({ onBack, credentials }) {
   };
 
   const onSubmit = async (data) => {
+    //state fields validations
+    if (gender === "") {
+      alert("Género obligatorio");
+      return;
+    }
+
+    if (preferredGender === "") {
+      alert("Género obligatorio");
+      return;
+    }
+
+    if (!selectedDate) {
+      alert("Fecha de nacimiento obligatoria");
+      return;
+    }
+
+    if (!image) {
+      alert("Imagen obligatoria");
+      return;
+    }
+
     const { name, birthdate, description } = data;
     const user = {
       ...credentials,
@@ -78,12 +105,9 @@ export default function PreferencesForm({ onBack, credentials }) {
       image: image,
       gender,
       preferred_gender: preferredGender,
-      lat: latitude,
-      lng: longitude,
+      ...(position ? { lat: position.latitude, lng: position.longitude } : {}),
       max_age: ageRange[0],
       min_age: ageRange[1],
-      lat: latitude,
-      lng: longitude,
     };
 
     var form_data = new FormData();
@@ -98,8 +122,12 @@ export default function PreferencesForm({ onBack, credentials }) {
       form_data.append(key, user[key]);
     }
 
-    console.log("user:", user);
-    Auth.register(form_data);
+    try {
+      console.log("user:", user);
+      Auth.register(form_data, setMessages, setStatus);
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const handleImage = (image) => {
@@ -112,7 +140,13 @@ export default function PreferencesForm({ onBack, credentials }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid classes={classes.root} container>
+      <ErrorMessages messages={messages} />
+      {status === "success" && (
+        <Alert severity="success">
+          <strong>Registrado correctamente.</strong>
+        </Alert>
+      )}
+      <Grid className={classes.root} container>
         <Grid container>
           <Grid
             container
@@ -163,9 +197,17 @@ export default function PreferencesForm({ onBack, credentials }) {
               <ImageUpload handleImage={handleImage} cardName="Input Image" />
             </Grid>
             <Grid className={classes.field}>
-              <Fab component="span" className={classes.button}>
+              <ButtonBase
+                style={{
+                  backgroundColor: position ? "#ffa50061" : "lightgray",
+                  width: "200px",
+                  height: "40px",
+                  borderRadius: "7px",
+                }}
+                onClick={getCurrentPosition}
+              >
                 <LocationCityOutlined />
-              </Fab>
+              </ButtonBase>
             </Grid>
           </Grid>
 
@@ -208,7 +250,7 @@ export default function PreferencesForm({ onBack, credentials }) {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid justify="left" className={classes.field}>
+            <Grid container className={classes.field}>
               <AgeRange
                 ageRange={ageRange}
                 handleAgeRange={(ageRange) => {

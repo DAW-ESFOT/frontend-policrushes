@@ -12,6 +12,7 @@ import blue from "@material-ui/core/colors/blue";
 
 import SearchIcon from "@material-ui/icons/Search";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import PhotoOutlined from "@material-ui/icons/PhotoOutlined";
 
 // Search
 import Paper from "@material-ui/core/Paper";
@@ -26,10 +27,10 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   icon: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
   },
   iconHover: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     "&:hover": {
       color: red[800],
     },
@@ -57,7 +58,7 @@ const styles = (theme) => ({
     margin: 10,
   },
   typography: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     backgroundColor: "default",
   },
 
@@ -262,11 +263,13 @@ class ImageUploadCard extends React.Component {
     return (
       <React.Fragment>
         <CardActionArea onClick={this.imageResetHandler}>
-          <img
-            width="100%"
-            className={classes.media}
-            src={this.state.selectedFileUrl}
-          />
+          <Fab
+            style={{ backgroundColor: "lightgreen" }}
+            component="span"
+            className={classes.button}
+          >
+            <PhotoOutlined />
+          </Fab>
         </CardActionArea>
       </React.Fragment>
     );

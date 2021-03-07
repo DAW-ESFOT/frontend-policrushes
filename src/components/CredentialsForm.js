@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CredentialsForm({ onConfirm }) {
+export default function CredentialsForm({ onConfirm, credentials }) {
   const classes = useStyles();
   const { register, handleSubmit } = useForm();
 
@@ -77,6 +77,7 @@ export default function CredentialsForm({ onConfirm }) {
 
           <div className={classes.form}>
             <TextField
+              defaultValue={credentials ? credentials.email : ""}
               variant="outlined"
               margin="normal"
               inputRef={register({
@@ -86,11 +87,13 @@ export default function CredentialsForm({ onConfirm }) {
               fullWidth
               id="email"
               label="Correo"
+              type="email"
               name="email"
               autoComplete="email"
               autoFocus
             />
             <TextField
+              defaultValue={credentials ? credentials.password : ""}
               variant="outlined"
               margin="normal"
               inputRef={register({
@@ -105,6 +108,9 @@ export default function CredentialsForm({ onConfirm }) {
               autoComplete="password"
             />
             <TextField
+              defaultValue={
+                credentials ? credentials.password_confirmation : ""
+              }
               variant="outlined"
               margin="normal"
               inputRef={register({
@@ -125,7 +131,7 @@ export default function CredentialsForm({ onConfirm }) {
               color="primary"
               className={classes.submit}
             >
-              Registrarse
+              Continuar
             </Button>
           </div>
         </div>
