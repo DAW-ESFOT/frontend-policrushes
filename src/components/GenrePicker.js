@@ -17,7 +17,7 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    outline: 'none',
+    outline: "none",
     position: "absolute",
     width: 400,
     height: 300,
@@ -74,13 +74,13 @@ export default function GenrePicker({
         {genres?.map((genre) => {
           const isSelected = _isSelected(genre);
           return (
-            <div classname={classes.buttonWrapper}>
+            <div key={genre} classname={classes.buttonWrapper}>
               <Button
                 onClick={() => {
                   onItemClick(genre);
                 }}
                 className={classes.genreButton}
-                color={isSelected ? "primary" : ""}
+                color={isSelected ? "primary" : "primary"}
                 variant={isSelected ? "contained" : "outlined"}
               >
                 {genre}
