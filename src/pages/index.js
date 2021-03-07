@@ -4,7 +4,7 @@ import Register from "../pages/register";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div>
       <Register />
     </div>
   );
