@@ -92,7 +92,10 @@ class ImageUploadCard extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.selectedFile !== this.state.selectedFile) {
-      if (!this.state.selectedFile) return;
+      if (!this.state.selectedFile) {
+        this.props.handleImage(null);
+        return;
+      }
       this.props.handleImage(this.state.selectedFile);
     }
   }
