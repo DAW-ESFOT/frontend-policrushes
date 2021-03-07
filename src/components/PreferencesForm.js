@@ -13,10 +13,11 @@ import LocationCityOutlined from "@material-ui/icons/LocationCityOutlined";
 import Fab from "@material-ui/core/Fab";
 import blue from "@material-ui/core/colors/blue";
 import { useForm } from "react-hook-form";
-import { Auth } from "../lib/auth";
 import AgeRange from "../components/AgeRange";
 import GenrePicker, { Trigger } from "../components/GenrePicker";
-import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import { Auth } from "../lib/auth";
+import { usePosition } from "../lib/geolocation";
 
 const intercalate = (array, element) => {
   const isSelected = array.includes(element);
@@ -44,9 +45,10 @@ const useStyles = makeStyles((theme) => ({
   confirm: {},
 }));
 
-export default function PreferencesForm({ switchScreen }) {
+export default function PreferencesForm({ onBack, credentials }) {
   const classes = useStyles();
   const { register, errors, handleSubmit, setValue } = useForm();
+  const { latitude, longitude, error } = usePosition();
 
   const [selectedDate, setSelectedDate] = React.useState(new Date(2001, 2, 2));
   const [image, setImage] = useState(null);
@@ -54,6 +56,7 @@ export default function PreferencesForm({ switchScreen }) {
   const [preferredGender, setPreferredGender] = useState("");
   const [selectedMusic, selectMusic] = useState([]);
   const [selectedMovies, selectMovies] = useState([]);
+  const [ageRange, setAgeRange] = useState([20, 37]);
 
   //genres modals
   const [music, showMusic] = useState(false);
@@ -66,24 +69,41 @@ export default function PreferencesForm({ switchScreen }) {
   const onSubmit = async (data) => {
     const { name, birthdate, description } = data;
     const user = {
+      ...credentials,
       name,
       description,
+      birthdate,
       music_preferences: selectedMusic,
       movie_preferences: selectedMovies,
-      birthdate,
+      image: image,
+      gender,
+      preferred_gender: preferredGender,
+      lat: latitude,
+      lng: longitude,
+      max_age: ageRange[0],
+      min_age: ageRange[1],
+      lat: latitude,
+      lng: longitude,
     };
-    console.log('user:',user)
-    // Auth.register(user);
+
+    var form_data = new FormData();
+
+    for (var key in user) {
+      if (key == "image") {
+        const imageFile = user["image"];
+
+        form_data.append("image", imageFile, imageFile.fileName);
+        continue;
+      }
+      form_data.append(key, user[key]);
+    }
+
+    console.log("user:", user);
+    Auth.register(form_data);
   };
 
-  useEffect(() => {
-    if (!image) return;
-    console.log("image selected", image);
-  }, [image]);
-
-  const handleImage = (event) => {
-    if (!event?.target?.value) return;
-    setImage(event.target.value);
+  const handleImage = (image) => {
+    setImage(image);
   };
 
   const handleGender = (event) => {
@@ -122,7 +142,7 @@ export default function PreferencesForm({ switchScreen }) {
             </Grid>
             <Grid className={classes.field}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DateTimePicker
+                <DatePicker
                   inputRef={register({
                     required: true,
                   })}
@@ -131,8 +151,9 @@ export default function PreferencesForm({ switchScreen }) {
                   inputVariant="outlined"
                   views={["date"]}
                   hideTabs={true}
-                  format="Y-m-d H:i:s"
-                  maxDate={new Date(2020 - 18, 3 - 1, 2)}
+                  format="yyyy-MM-dd hh:mm:ss"
+                  minDate={new Date(2020 - 80, 2, 2)}
+                  maxDate={new Date(2020 - 18, 2, 2)}
                   value={selectedDate}
                   onChange={handleDateChange}
                 />
@@ -188,7 +209,12 @@ export default function PreferencesForm({ switchScreen }) {
               </FormControl>
             </Grid>
             <Grid justify="left" className={classes.field}>
-              <AgeRange />
+              <AgeRange
+                ageRange={ageRange}
+                handleAgeRange={(ageRange) => {
+                  setAgeRange(ageRange);
+                }}
+              />
             </Grid>
             <Grid className={classes.field}>
               <TextField
@@ -249,7 +275,7 @@ export default function PreferencesForm({ switchScreen }) {
             sm={6}
           >
             <Button
-              onClick={switchScreen}
+              onClick={onBack}
               variant="outlined"
               style={{ marginRight: 12 }}
             >

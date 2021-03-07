@@ -7,22 +7,17 @@ const useStyles = makeStyles({
   root: {
     width: 200,
   },
-  label:{
-    marginBottom:45
-  }
+  label: {
+    marginBottom: 45,
+  },
 });
 
 function valuetext(value) {
   return `${value}°C`;
 }
 
-export default function AgeRange() {
+export default function AgeRange({ ageRange, handleAgeRange }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState([20, 37]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <div className={classes.root}>
@@ -35,10 +30,12 @@ export default function AgeRange() {
         Edad
       </Typography>
       <Slider
-        value={value}
+        value={ageRange}
         aria-labelledby="discrete-slider-always"
         valueLabelDisplay="on"
-        onChange={handleChange}
+        onChange={(event, ageRange) => {
+          handleAgeRange(ageRange);
+        }}
         aria-labelledby="range-slider"
         getAriaValueText={valuetext}
       />

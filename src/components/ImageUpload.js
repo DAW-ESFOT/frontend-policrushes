@@ -86,7 +86,15 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial, search, gallery, uploaded
     imageUploaded: 0,
     selectedFile: null,
+    selectedFileUrl: null,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedFile !== this.state.selectedFile) {
+      if (!this.state.selectedFile) return;
+      this.props.handleImage(this.state.selectedFile);
+    }
+  }
 
   handleUploadClick = (event) => {
     var file = event.target.files[0];
@@ -95,11 +103,10 @@ class ImageUploadCard extends React.Component {
 
     reader.onloadend = function (e) {
       this.setState({
-        selectedFile: [reader.result],
+        selectedFileUrl: [reader.result],
       });
-      this.props.handleImage(reader.result);
     }.bind(this);
-    console.log(url); // Would see a path?
+    console.log("url:", url); // Would see a path?
 
     this.setState({
       mainState: "uploaded",
@@ -258,7 +265,7 @@ class ImageUploadCard extends React.Component {
           <img
             width="100%"
             className={classes.media}
-            src={this.state.selectedFile}
+            src={this.state.selectedFileUrl}
           />
         </CardActionArea>
       </React.Fragment>
@@ -275,7 +282,6 @@ class ImageUploadCard extends React.Component {
   };
 
   render() {
-
     return (
       <React.Fragment>
         <div>

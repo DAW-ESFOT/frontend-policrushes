@@ -8,7 +8,6 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
-import PropTypes from "prop-types";
 
 const img = {
   width: "100%",
@@ -39,12 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CredentialsForm({ switchScreen }) {
+export default function CredentialsForm({ onConfirm }) {
   const classes = useStyles();
-  const { register, handleSubmit, watch, errors } = useForm();
-  const onSubmit = (data) => console.log(data);
-
-  console.log(watch("example")); // watch input value by passing the name of it
+  const { register, handleSubmit } = useForm();
 
   function Copyright() {
     const classes = useStyles();
@@ -63,70 +59,80 @@ export default function CredentialsForm({ switchScreen }) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <div className={classes.avatar}>
-          <div style={wrapper}>
-            <img style={img} src="logo.jpeg"></img>
+      <form onSubmit={handleSubmit(onConfirm)}>
+        <CssBaseline />
+        <div className={classes.paper}>
+          <div className={classes.avatar}>
+            <div style={wrapper}>
+              <img style={img} src="logo.jpeg"></img>
+            </div>
+          </div>
+          <Typography component="h1" variant="h4">
+            CREAR CUENTA
+          </Typography>
+
+          <Typography component="h2" variant="h5">
+            {/* Entrar */}
+          </Typography>
+
+          <div className={classes.form}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              inputRef={register({
+                required: true,
+              })}
+              required
+              fullWidth
+              id="email"
+              label="Correo"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              inputRef={register({
+                required: true,
+              })}
+              required
+              fullWidth
+              name="password"
+              label="Contraseña"
+              type="password"
+              id="password"
+              autoComplete="password"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              inputRef={register({
+                required: true,
+              })}
+              required
+              fullWidth
+              type="password"
+              name="password_confirmation"
+              label="Confirmar contraseña"
+              id="password"
+              autoComplete="password_confirmation"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Registrarse
+            </Button>
           </div>
         </div>
-        <Typography component="h1" variant="h4">
-          CREAR CUENTA
-        </Typography>
-
-        <Typography component="h2" variant="h5">
-          {/* Entrar */}
-        </Typography>
-
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Correo"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="password"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="passwordConfirm"
-            label="Confirmar contraseña"
-            type="passwordConfirm"
-            id="password"
-            autoComplete="confirm-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={switchScreen}
-          >
-            Registrarse
-          </Button>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </form>
     </Container>
   );
 }
