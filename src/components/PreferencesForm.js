@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   field: {
     margin: 20,
   },
+  selector: {
+    margin: 13,
+  },
   button: {
     color: blue[900],
     margin: 10,
@@ -154,7 +157,7 @@ export default function PreferencesForm({ onBack, credentials }) {
             alignItems="center"
             item
             xs={12}
-            sm={6}
+            sm={4}
           >
             <Grid className={classes.field}>
               <TextField
@@ -217,9 +220,9 @@ export default function PreferencesForm({ onBack, credentials }) {
             alignItems="center"
             item
             xs={12}
-            sm={6}
+            sm={4}
           >
-            <Grid className={classes.field}>
+            <Grid className={classes.selector}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>Género</InputLabel>
                 <Select
@@ -234,7 +237,7 @@ export default function PreferencesForm({ onBack, credentials }) {
               </FormControl>
             </Grid>
 
-            <Grid className={classes.field}>
+            <Grid className={classes.selector}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>Me interesa</InputLabel>
                 <Select
@@ -258,6 +261,16 @@ export default function PreferencesForm({ onBack, credentials }) {
                 }}
               />
             </Grid>
+          </Grid>
+
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            item
+            xs={12}
+            sm={4}
+          >
             <Grid className={classes.field}>
               <TextField
                 type="text"
@@ -284,6 +297,8 @@ export default function PreferencesForm({ onBack, credentials }) {
                   showMusic(true);
                 }}
               />
+            </Grid>
+            <Grid className={classes.field}>
               <Trigger
                 label="películas"
                 handleOpen={() => {
@@ -305,7 +320,7 @@ export default function PreferencesForm({ onBack, credentials }) {
             alignItems="center"
             item
             xs={12}
-            sm={6}
+            sm={4}
           ></Grid>
           <Grid
             container
@@ -314,7 +329,16 @@ export default function PreferencesForm({ onBack, credentials }) {
             alignItems="center"
             item
             xs={12}
-            sm={6}
+            sm={4}
+          ></Grid>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            item
+            xs={12}
+            sm={4}
           >
             <Button
               onClick={onBack}
