@@ -1,7 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import Home from './home';
+import CardHome from "../components/CardHome";
+import NavHome from "../components/NavHome";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,11 +17,11 @@ const Favorites = () => {
     return(
         <Grid container className={classes.root}>
             <Grid item xs={5} className={classes.cont1}>
-                <Home/>
+                <NavHome/>
                 <div>favoritos</div>
             </Grid>
             <Grid item xs={7} className={classes.cont2}>
-                <div>contenido de favoritos</div>
+                <CardHome/>
             </Grid>
         </Grid>
     );
