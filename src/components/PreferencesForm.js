@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import AgeRange from "../components/AgeRange";
 import GenrePicker, { Trigger } from "../components/GenrePicker";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import { Auth } from "../lib/auth";
+import { useAuth } from "@/lib/auth";
 import { usePosition } from "../lib/geolocation";
 import ErrorMessages from "./ErrorMessages";
 import Alert from "@material-ui/lab/Alert";
@@ -53,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PreferencesForm({ onBack, credentials }) {
   const classes = useStyles();
-  const { register, errors, handleSubmit, setValue } = useForm();
+  const { registerUser } = useAuth();
+  const { register, errors, handleSubmit } = useForm();
   const { position, getCurrentPosition } = usePosition();
 
   const [selectedDate, setSelectedDate] = useState(null);
@@ -127,7 +128,7 @@ export default function PreferencesForm({ onBack, credentials }) {
 
     try {
       console.log("user:", user);
-      Auth.register(form_data, setMessages, setStatus);
+      registerUser(form_data, setMessages, setStatus);
     } catch (e) {
       alert(e);
     }

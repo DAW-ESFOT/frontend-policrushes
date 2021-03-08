@@ -3,6 +3,7 @@ import React from "react";
 //tema personalizado
 import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
+import { AuthProvider } from "@/lib/auth";
 
 //tema global
 const theme = createMuiTheme({
@@ -45,9 +46,11 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
