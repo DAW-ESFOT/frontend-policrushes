@@ -21,6 +21,7 @@ import { usePosition } from "../lib/geolocation";
 import ErrorMessages from "./ErrorMessages";
 import Alert from "@material-ui/lab/Alert";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from "@material-ui/core/Typography";
 
 const intercalate = (array, element) => {
   const isSelected = array.includes(element);
@@ -34,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: "auto 100px",
   },
+  titleWrapper: { display: "flex", margin: "30px auto" },
+  title: { margin: "0 auto" },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 200,
@@ -144,6 +147,11 @@ export default function PreferencesForm({ onBack, credentials }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div className={classes.titleWrapper}>
+        <Typography className={classes.title} component="h1" variant="h4">
+          INFORMACION PERSONAL
+        </Typography>
+      </div>
       <ErrorMessages messages={messages} />
       {status === "success" && (
         <Alert severity="success">
