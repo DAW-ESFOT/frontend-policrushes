@@ -1,5 +1,58 @@
 import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { Container } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import RoomIcon from "@material-ui/icons/Room";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import ForumIcon from "@material-ui/icons/Forum";
 
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+});
+
+const styles = {
+  root: {
+    alignContent: "center",
+  },
+};
+function getAllRequest() {
+  axios
+    .get("")
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {});
+}
+
+function postRequest() {
+  axios
+    .post("", {
+      data: "NewItem",
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {});
+}
 const compatibles = [
   {
     id: 7,
@@ -56,41 +109,67 @@ const compatibles = [
   },
 ];
 
-const box = {
-  width: 100,
-  height: 100,
-  backgroundColor: "cyan",
-  padding: 10,
-};
-
-export default function geolocation() {
+export default function Geolocation() {
   const [user, setUser] = useState(compatibles[0]);
   const [index, setIndex] = useState(0);
 
   const pickUser = (user) => {
     setUser(user);
   };
-
+  const classes = useStyles();
   return (
-    <>
-      {user && (
-        <div style={box}>
-          <div>{user.name}</div>
-        </div>
-      )}
-      <button
-        onClick={() => {
-          const newIndex = index + 1;
-          if (newIndex > compatibles.length - 1) {
-            alert("ya no hay mas usuarios");
-            return;
-          }
-          pickUser(compatibles[newIndex]);
-          setIndex(newIndex);
-        }}
-      >
-        siguiente
-      </button>
-    </>
+    <Container maxWidth="xs">
+      <Card className={classes.root}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image="https://i.pinimg.com/originals/22/24/c0/2224c071c6ed67409016ab393d5900af.jpg"
+            title="Compatible"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h4" component="h2">
+              {user.name}
+              {user.age}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              A {user.location} kilometros de distancia
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions style={{ padding: "8px 90px" }}>
+          <IconButton
+            aria-label="next"
+            onClick={() => {
+              const newIndex = index + 1;
+              if (newIndex > compatibles.length - 1) {
+                alert("ya no hay mas usuarios");
+                return;
+              }
+              pickUser(compatibles[newIndex]);
+              setIndex(newIndex);
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <IconButton aria-label="message">
+            <ForumIcon />
+          </IconButton>
+          <IconButton
+            aria-label="match"
+            onClick={() => {
+              const newIndex = index + 1;
+              if (newIndex > compatibles.length - 1) {
+                alert("ya no hay mas usuarios");
+                return;
+              }
+              pickUser(compatibles[newIndex]);
+              setIndex(newIndex);
+            }}
+          >
+            <FavoriteBorderIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </Container>
   );
 }

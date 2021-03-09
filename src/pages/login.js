@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "../lib/auth";
 import { Compatibles } from "../lib/compatibles";
+import UserScreen from "../components/UserScreen";
 
 const Login = () => {
   const [compatibles, setCompatibles] = useState([]);
@@ -64,6 +65,7 @@ const Login = () => {
           return <li key={compatible.id}>{compatible.name}</li>;
         })}
       </ul>
+      <UserScreen />
     </div>
   );
 };
