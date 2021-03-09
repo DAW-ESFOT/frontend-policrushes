@@ -81,59 +81,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const chats = [
-  {
-    user: {
-      id: 1,
-      name: "Ronny Cajas",
-      photoUrl: "https://eststatic.com/2676/conversions/malas-personas-social.jpg",
-    },
-    date: "hoy",
-    messages: [
-      {
-        owner: "user",
-        content: "hola joss",
-        date: "hoy",
-      },
-      {
-        owner: null,
-        content: "hola carlos como estas ",
-        date: "hoy",
-      },
-      {
-        owner: "user",
-        content: "hola carlos como estas ",
-        date: "hoy",
-      },
-      {
-        owner: "user",
-        content: "||En casos excepcionales, es posible que desees que un componente se oculte a sí mismo aunque haya sido renderizado por otro componente. Para hacer esto, devuelve null en lugar del resultado de renderizado",
-        date: "hoy",
-      },
-      {
-        owner: null,
-        content: "nmbm . Al igual que en JavaScript, depende de ti elegir un estilo apropiado en base a lo que tu y tu equipo consideran más legible. Recuerda también que cuando las condiciones se vuelven demasiado complejas, puede ser un buen momento para extraer un componente.",
-        date: "hoy",
-      },
-      {
-        owner: "user",
-        content: "hola carlos como estas ",
-        date: "hoy",
-      },
-      {
-        owner: null,
-        content: "hola carlos como estas ",
-        date: "hoy",
-      }
-    ]
-  }
-];
-
-
-const ChatBox = ({}) => {
+const ChatBox = (chats) => {
   const classes = useStyles();
 
-  console.log('boxchat', chats[0].user);
+  console.log('boxchat', chats);
+  console.log('nombre', chats.props.user);
 
   return (
     <div className={classes.root}>
@@ -141,16 +93,16 @@ const ChatBox = ({}) => {
         <Grid item xs={12} >
           <div>
             <Card variant="outlined" className='box'>
-              <img className='img-users' src={chats[0].user.photoUrl} className='avatar-user'  />
+              <img className='img-users' src={chats.props.user.photoUrl} className='avatar-user'  />
               <p className='font-name'>
-              <strong>{chats[0].user.name}</strong>
+              <strong>{chats.props.user.name}</strong>
               </p>
             </Card>
           </div>
           <div className={classes.demo}>
             <List >
               {
-                chats[0].messages.map((message) => (
+                chats.props.messages.map((message) => (
                   message.owner
                   ?
                   <ListItem>

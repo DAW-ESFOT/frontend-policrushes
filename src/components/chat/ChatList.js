@@ -135,7 +135,7 @@ const chats = [
   }
 ];
 
-export default function ChatList() {
+export default function ChatList(props) {
 
   const classes = useStyles();
   const [ iduser, setId ] = useState('');
@@ -143,7 +143,7 @@ export default function ChatList() {
   const [ photoURL, setPhotoURL] = useState('');
   const [ messages, setMessages ] = useState([]); 
 
-  console.log('chats', chats)
+  console.log('chats', props)
 
   const handleView = (id, name, photo, messages) => {
     console.log('boton:', id)
