@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import Button from "@material-ui/core/Button";
 import LocationCityOutlined from "@material-ui/icons/LocationCityOutlined";
-import Fab from "@material-ui/core/Fab";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import blue from "@material-ui/core/colors/blue";
 import { useForm } from "react-hook-form";
 import AgeRange from "../components/AgeRange";
@@ -176,7 +176,7 @@ export default function PreferencesForm({ onBack, credentials }) {
                   required: true,
                 })}
                 helperText={
-                  errors.title?.type === "maxLength" && "título olbigatorio"
+                  errors.name?.type === "required" && "*Nombre obligatorio"
                 }
                 variant="outlined"
                 id="name"
@@ -192,6 +192,10 @@ export default function PreferencesForm({ onBack, credentials }) {
                   inputRef={register({
                     required: true,
                   })}
+                  helperText={
+                    errors.birthdate?.type === "required" &&
+                    "*Fecha obligatoria"
+                  }
                   name="birthdate"
                   label="Fecha de nacimiento"
                   inputVariant="outlined"
@@ -235,7 +239,10 @@ export default function PreferencesForm({ onBack, credentials }) {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>Género</InputLabel>
                 <Select
-                  labelId="propGender"
+                  inputProps={{
+                    name: "gender",
+                    id: "uncontrolled-native",
+                  }}
                   onChange={handleGender}
                   label="Género"
                   value={gender}
@@ -243,6 +250,9 @@ export default function PreferencesForm({ onBack, credentials }) {
                   <MenuItem value={"male"}>Hombre</MenuItem>
                   <MenuItem value={"female"}>Mujer</MenuItem>
                 </Select>
+                <FormHelperText>
+                  {errors.gender?.type === "required" && "*Nombre obligatorio"}
+                </FormHelperText>
               </FormControl>
             </Grid>
 
@@ -250,7 +260,10 @@ export default function PreferencesForm({ onBack, credentials }) {
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>Me interesa</InputLabel>
                 <Select
-                  labelId="propGender"
+                  inputProps={{
+                    name: "preferrence",
+                    id: "uncontrolled-native",
+                  }}
                   label="Me interesa"
                   onChange={(event) => {
                     setPreferredGender(event.target.value);
@@ -260,6 +273,10 @@ export default function PreferencesForm({ onBack, credentials }) {
                   <MenuItem value={"male"}>Hombre</MenuItem>
                   <MenuItem value={"female"}>Mujer</MenuItem>
                 </Select>
+                <FormHelperText>
+                  {errors.preferrence?.type === "required" &&
+                    "*Preferencia obligatoria"}
+                </FormHelperText>
               </FormControl>
             </Grid>
             <Grid container className={classes.field}>
@@ -356,7 +373,12 @@ export default function PreferencesForm({ onBack, credentials }) {
             >
               Volver
             </Button>
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              disabled={status === "success"}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
               Confirmar
             </Button>
           </Grid>
