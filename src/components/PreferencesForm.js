@@ -61,6 +61,7 @@ export default function PreferencesForm({ onBack, credentials }) {
   const { registerUser } = useAuth();
   const { register, errors, handleSubmit } = useForm();
   const { position, getCurrentPosition } = usePosition();
+  const [ locked, setLocked ] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [image, setImage] = useState(null);
@@ -103,6 +104,7 @@ export default function PreferencesForm({ onBack, credentials }) {
       return;
     }
 
+    setLocked(true);
     const { name, birthdate, description } = data;
     const user = {
       ...credentials,
@@ -133,9 +135,13 @@ export default function PreferencesForm({ onBack, credentials }) {
 
     try {
       console.log("user:", user);
-      registerUser(form_data, setMessages, setStatus);
+      await registerUser(form_data, setMessages, setStatus);
+      
+      setLocked(false);
+
     } catch (e) {
       alert(e);
+      setLocked(false);
     }
   };
 
@@ -378,7 +384,7 @@ export default function PreferencesForm({ onBack, credentials }) {
               Volver
             </Button>
             <Button
-              disabled={status === "success"}
+              disabled={locked}
               variant="contained"
               color="primary"
               type="submit"
