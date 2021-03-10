@@ -38,23 +38,27 @@ function useAuthProvider() {
     }
   };
 
-  async function login(data, onSuccess) {
+  async function login(data, onSuccess, onFail) {
     try {
-      const response = await api.post("/login", data);
+      const response = await publicApi.post("/login", data);
       console.log("login response", response);
       handleUser(response.data.user);
+      onSuccess(response.data.token);
       return response;
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.log('login error data:',error.response.data);
+        onFail(error.response.data);
         return error.response;
       } else if (error.request) {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
         // http.ClientRequest in node.js
         console.log(error.request);
+        onFail(error.response.data);
+        return error.request;
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log("Error", error.message);
@@ -93,7 +97,7 @@ function useAuthProvider() {
     } catch (error) {}
   }
 
-  async function getAuthenticatedUser(token) {
+  async function getAuthenticatedUser() {
     try {
       const response = await api.get("/user", {
         headers: {
@@ -132,13 +136,14 @@ function useAuthProvider() {
     } catch (error) {
       console.log("NO USER");
     }
-  }, []);
+  }, [user]);
 
   return {
     user,
     registerUser,
     login,
     logout,
+    getAuthenticatedUser,
     // sendPasswordResetEmail,
     // confirmPasswordReset
   };

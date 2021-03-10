@@ -62,6 +62,9 @@ export default function Login() {
   const onSuccess = async (token) => {
     const user = await getAuthenticatedUser(token);
   };
+  const onFail = async (error) => {
+    
+  }
 
   const onSubmit = (data) => {
     console.log("login form data", data);
@@ -125,7 +128,7 @@ export default function Login() {
               color="primary"
               className={classes.submit}
             >
-              Continuar
+              Entrar
             </Button>
           </div>
         </div>
