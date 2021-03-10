@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Home from './home';
 import ChatBox from '../components/chat/ChatBox';
-//import ChatList from '../components/chat/ChatList';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -196,7 +196,6 @@ const Messages = () => {
 
     const handleView = (chatinfo) => {
         setFriend(chatinfo);
-        {/*console.log('obj info: ', friend);*/}
     }
 
     return(

@@ -12,8 +12,7 @@ import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    width: "100%",
+    width: "99%",
   },
   demo: {
     height: 400,
@@ -43,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "right",
     float: "right",
+    padding: 20,
   },
   paper: {
     maxWidth: "80%",
@@ -50,20 +50,27 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     background: "#ea6990",
     padding: theme.spacing(2),
+    textAlign: "left",
+    float: "left",
+    padding: 20,
   },
   form:{
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
       width: '25ch',
+      display: "flex",
     },
   },
   text: {
+    fontSize: 20,
+    padding: 20,
+    marginRight: 40,
+    marginLeft: 40,
+    marginTop: 20,
     borderRadius: 20,
-    width: 250,
   },
   button: {
-    margin: theme.spacing(1),
     borderRadius: "100%",
+    margin: 0,
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
@@ -101,21 +108,21 @@ const ChatBox = (chats) => {
                     message.owner
                     ?
                     <ListItem>
-                      <div >
+                      <Grid item xs={2}>
                         <Paper></Paper>
-                      </div>
-                      <div className={classes.messbox}>
+                      </Grid>
+                      <Grid item xs={9}>
                         <Paper className={classes.my_paper}>{message.content}</Paper>
-                      </div>
+                      </Grid>
                     </ListItem>
                     :
                     <ListItem>
-                      <div className={classes.messbox}>
+                      <Grid item xs={9}>
                         <Paper className={classes.paper}>{message.content}</Paper>
-                      </div>
-                      <div>
+                      </Grid>
+                      <Grid item xs={2}>
                         <Paper></Paper>
-                      </div>
+                      </Grid>
                     </ListItem>
                   ))
                 }
@@ -124,15 +131,8 @@ const ChatBox = (chats) => {
           </Grid>
         </Grid>
         <form className={classes.form} noValidate autoComplete="off">
-          <TextField
-            className={classes.text} 
-            id="filled-multiline-static"
-            label="Mensaje"
-            multiline
-            rows={2}
-            cols={30}
-            variant="filled"
-          />
+          <textarea className={classes.text} rows="1" cols="25" placeholder="mensajes">
+          </textarea>
           <Button              
             variant="contained"
             color="primary"
