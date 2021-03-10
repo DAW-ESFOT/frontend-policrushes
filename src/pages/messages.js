@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(7),
       height: theme.spacing(7),
     },
+    nameitem: {
+        marginLeft: 30,
+    }
   }));
 
   const chats = [
@@ -121,6 +124,16 @@ const useStyles = makeStyles((theme) => ({
           date: "hoy",
         },
         {
+            owner: "user",
+            content: "hola carlos como estas ",
+            date: "hoy",
+          },
+          {
+            owner: "user",
+            content: "||En casos excetpcionales, es posible que desees que un componente se oculte a sí mismo aunque haya sido renderizado por otro componente. Para hacer esto, devuelve null en lugar del resultado de renderizado",
+            date: "hoy",
+          },
+        {
           owner: null,
           content: "hola guapo :v",
           date: "hoy",
@@ -206,7 +219,7 @@ const Messages = () => {
                                 className={classes.inline}
                                 color="textPrimary"
                                 >
-                                    <h2>{chat.user.name}</h2>
+                                    <h2 className={classes.nameitem}>{chat.user.name}</h2>
                                 </Typography>
                             </React.Fragment>
                             } 

@@ -1,26 +1,3 @@
-{/*import React, {useEffect, useState} from 'react';
-import ChatList from "../components/chat/ChatList";
-import ChatBox from "../components/chat/ChatBox";
-
-export default function Home() {
-
-  const [ id, setId ] = useState(0);
-  const [ name, setName ] = useState('');
-  const [ photoURL, setPhotoURL] = useState('');
-  const [ messages, setMessages ] = useState([]); 
-
-  return (
-    <div style={{ display: "flex" }}>
-      <div style={{ paddingTop: 100, margin: "0 auto" }}>
-        <ChatList />
-        <br/>
-        <br/>
-        <ChatBox />
-      </div>
-    </div>
-  );
-}*/}
-
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
