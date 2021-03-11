@@ -18,6 +18,17 @@ const useStyles = makeStyles((theme) => ({
       height: 450,
       width: "100%",
       backgroundColor: theme.palette.background.paper,
+      '&::-webkit-scrollbar': {
+        width: '0.4em'
+      },
+      '&::-webkit-scrollbar-track': {
+        boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+        webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#e88192',
+        outline: '1px solid slategrey'
+      }
     },
     inline: {
       display: 'inline',

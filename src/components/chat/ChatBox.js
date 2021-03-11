@@ -4,7 +4,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Card from '@material-ui/core/Card';
@@ -18,6 +17,18 @@ const useStyles = makeStyles((theme) => ({
     height: 400,
     width: "100%",
     overflowY: "scroll",
+    backgroundColor: theme.palette.background.paper,
+    '&::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+    '&::-webkit-scrollbar-track': {
+      boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+      webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#e88192',
+      outline: '1px solid slategrey'
+    }
   },
   title: {
     margin: theme.spacing(4, 0, 2),
@@ -76,6 +87,13 @@ const useStyles = makeStyles((theme) => ({
   },
   messbox: {
     with: 200,
+  },
+  back: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.7,
+    textAlign: 'center',
+    color: '#df94a1',
   }
 }));
 
@@ -131,20 +149,32 @@ const ChatBox = (chats) => {
           </Grid>
         </Grid>
         <form className={classes.form} noValidate autoComplete="off">
-          <textarea className={classes.text} rows="1" cols="25" placeholder="mensajes">
-          </textarea>
-          <Button              
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            endIcon={<SendIcon />}
-          >
-          </Button>
+          <ListItem>
+            <Grid item xs={9}>
+              <textarea className={classes.text} rows="1" cols="25" placeholder="mensajes">
+              </textarea>
+            </Grid>
+            <Grid item xs={3}>
+              <Button              
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                endIcon={<SendIcon />}
+              >
+              </Button>
+            </Grid>
+          </ListItem>
         </form>
         </>
         :
-        <div>
-          no ahi mensajes
+        <div className={classes.back}>
+          <img src='https://i.pinimg.com/originals/e7/a7/89/e7a789d3da94210f9bfa806806f3dafb.png'/>
+          <h1>Conoce nuevas personas, podrias iniciar nuevas amistades o una linda relacion</h1>
+          <br/>
+          <br/>
+          <h3>POLICRUSH®</h3>
+          <h3>BY: RESPONSIVE CREATION INC.   </h3>
+          
         </div>
       }
     </div>
