@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
     fondoBlanco:{
+        height: 100,
         background: 'rgba(255, 255, 255, 0.82)',
         width: '100%',
     },
@@ -42,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
         width: '40px',
         height: '60px',
         position: 'absolute',
-    }
+    },
+    toolbar:{marginBottom:"10px",marginTop:"20px"}
 
 
   }));
@@ -54,9 +56,9 @@ const useStyles = makeStyles((theme) => ({
 
     return (
         <div className={classes.root}>
-            <img src='/buho.jpg'  className={classes.image} alt=""/>
           <AppBar position="static" className={classes.fondoBlanco}>
-            <Toolbar>
+            <Toolbar className={classes.toolbar}>
+            <img src='/buho.jpg'  className={classes.image} alt=""/>
 
               <Typography variant="h6" className={classes.title}>
                 poliCrush
