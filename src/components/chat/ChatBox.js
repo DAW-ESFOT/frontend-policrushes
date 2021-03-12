@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Card from '@material-ui/core/Card';
+import { InputBase } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,7 +87,15 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(7),
   },
   messbox: {
-    with: 200,
+    background: "#e8aeb7",
+    margin: 20,
+    marginRight: 50,
+    width: "90%",
+    height: 45,
+    borderRadius: 30,
+    fontSize: 20,
+    padding: 30,
+    border: "solid 1 black",
   },
   back: {
     width: '100%',
@@ -94,6 +103,17 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.7,
     textAlign: 'center',
     color: '#df94a1',
+  },
+  card: {
+    fontSize: 40,
+    display: "flex",
+    borderTop: "black",
+  },
+  avatar:{
+    width: 100,
+    height: 100,
+    borderRadius: "100%",
+    margin: 20,
   }
 }));
 
@@ -112,12 +132,12 @@ const ChatBox = (chats) => {
         <Grid container spacing={2}>
           <Grid item xs={12} >
             <div>
-              <Card variant="outlined" className='box'>
-                <img className='img-users' src={chats.props.user.photoUrl} className='avatar-user'  />
-                <p className='font-name'>
+            <Grid className={classes.card}>
+              <img src={chats.props.user.photoUrl} className={classes.avatar} />
+              <p >
                 <strong>{chats.props.user.name}</strong>
-                </p>
-              </Card>
+              </p>
+            </Grid>
             </div>
             <div className={classes.demo}>
               <List >
@@ -151,16 +171,11 @@ const ChatBox = (chats) => {
         <form className={classes.form} noValidate autoComplete="off">
           <ListItem>
             <Grid item xs={9}>
-              <textarea className={classes.text} rows="1" cols="25" placeholder="mensajes">
-              </textarea>
+              <InputBase className={classes.messbox}></InputBase>
             </Grid>
             <Grid item xs={3}>
-              <Button              
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                endIcon={<SendIcon />}
-              >
+              <Button>
+                <SendIcon style={{ fontSize: 40 }}/>
               </Button>
             </Grid>
           </ListItem>

@@ -2,40 +2,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import Button from '@material-ui/core/Button';
 import Link from "next/link";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-
-
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`scrollable-auto-tabpanel-${index}`}
-            aria-labelledby={`scrollable-auto-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,6 +18,17 @@ const useStyles = makeStyles((theme) => ({
       '& > *': {
         margin: theme.spacing(1),
       },
+    },
+    card: {
+      background: "#e8aeb7",
+      fontSize: 40,
+      display: "flex",
+    },
+    avatar:{
+      width: 100,
+      height: 100,
+      borderRadius: "100%",
+      margin: 20,
     }
 }));
 
@@ -72,12 +53,12 @@ const Home = () =>{
             <Grid container >
                 <Grid item xs={12}>
                   <div>
-                    <Card variant="outlined" className='box'>
-                      <img className='img-users' src={user.photoUrl} className='avatar-user'  />
-                      <p className='font-name'>
+                    <Grid className={classes.card}>
+                      <img  src={user.photoUrl} className={classes.avatar} />
+                      <p >
                        <strong>{user.name}</strong>
                       </p>
-                    </Card>
+                    </Grid>
                   </div>
                     <Paper  className={classes.root}>
                       <Grid className={classes.nav}>

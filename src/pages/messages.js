@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
       height: 110,
     },
     large: {
-      width: theme.spacing(7),
-      height: theme.spacing(7),
+      width: theme.spacing(8),
+      height: theme.spacing(8),
     },
     nameitem: {
         marginLeft: 30,
