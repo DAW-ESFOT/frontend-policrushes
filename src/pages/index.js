@@ -38,6 +38,7 @@ const theme = createMuiTheme({
   },
 });
 export default function Home() {
+
   return (
     <div className={styles.container}>
       <ThemeProvider theme={theme}>

@@ -14,3 +14,87 @@ a {
 * {
   box-sizing: border-box;
 }
+.Home_container__sDexO{
+  flex-direction: revert !important;
+  justify-content: normal !important;
+  align-items: normal !important;
+  display: block !important;
+}
+.MuiGrid-item{
+  width: 520px!important;
+}
+.box{
+  height: 140px !important;
+  border: 1px solid black ;
+  background: rgba(213, 116, 133, 0.77) !important;
+  border: 1px solid rgba(0, 0, 0, 0.57) !important;
+  box-sizing: border-box !important;
+}
+
+.card-user{
+  width: 435px;
+  height: 538px;
+  margin-top: 82px ;
+  margin-left: 227px ;
+  box-sizing: border-box;
+  border-radius: 10px;
+
+}
+.box-info{
+  width: 435px;
+  height: 103px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-left: 227px ;
+
+}
+.font-name{
+  font-size: 48px !important;
+  margin-left: 181px;
+  margin-top: 35px;
+  color: white;
+
+}
+.avatar-user{
+  float: left;
+  width: 120px;
+  height: 101px;
+  border-radius:150px;
+  margin-left: 41px;
+  margin-top: 19px;
+}
+.txt-name{
+  font-size: 36px;
+  line-height: 24px;
+  margin-left: 36px;
+  margin-top: 18px;
+  margin-bottom: 0px;
+}
+.txt-location{
+  font-size: 18px;
+  line-height: 24px;
+  margin-left: 36px;
+  margin-top: 19px;
+}
+
+.box-icons{
+  width: 435px;
+  height: 103px;
+  margin-left: 227px ;
+  padding-left: 20px;
+  padding-top: 23px;
+}
+.button-icons{
+  width: 79px;
+  height: 72px;
+}
+
+.img-users{
+  width: 100% !important;
+  height: auto;
+}
+
+
+
+
