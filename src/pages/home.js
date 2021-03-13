@@ -1,12 +1,14 @@
-import React from 'react'
+import React from "react";
 import withAuth from "@/hocs/withAuth";
 
 function Home() {
-    return (
-        <div>
-            home
-        </div>
-    )
+  useEffect(() => {
+    setInterval(() => {
+      console.log("token check");
+    }, 60*1000);
+  }, []);
+
+  return <div>home</div>;
 }
 
-export default withAuth(Home); 
+export default withAuth(Home);
