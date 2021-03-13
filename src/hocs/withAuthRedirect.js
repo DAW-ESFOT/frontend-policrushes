@@ -1,6 +1,6 @@
  import { useAuth } from "@/lib/auth";
  import Loading from "@/components/Loading";
- import Routes from "../constants/routes";
+ import Routes from "@/constants/routes";
  import { useRouter } from "next/router";
  
  export default function withAuthRedirect({

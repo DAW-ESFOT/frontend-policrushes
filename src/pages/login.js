@@ -9,6 +9,8 @@ import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/lib/auth";
+import { useRouter } from "next/router";
+import Routes from "@/constants/routes";
 
 const img = {
   width: "100%",
@@ -41,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const { login, error } = useAuth();
+  const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const { login, getAuthenticatedUser } = useAuth();
 
   function Copyright() {
     const classes = useStyles();
@@ -59,16 +62,13 @@ export default function Login() {
     );
   }
 
-  const onSuccess = async (token) => {
-    const user = await getAuthenticatedUser(token);
-  };
-  const onFail = async (error) => {
-    
-  }
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("login form data", data);
-    login(data, onSuccess);
+    const user = await login(data);
+    if (user) {
+      console.log("redirecting");
+      router.push(Routes.HOME);
+    }
   };
 
   return (

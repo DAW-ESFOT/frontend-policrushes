@@ -23,7 +23,8 @@ import Alert from "@material-ui/lab/Alert";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 import SimpleNav from "../components/SimpleNav";
-
+import { useRouter } from "next/router";
+import Routes from "@/constants/routes";
 
 const intercalate = (array, element) => {
   const isSelected = array.includes(element);
@@ -56,12 +57,13 @@ const useStyles = makeStyles((theme) => ({
   confirm: {},
 }));
 
-export default function PreferencesForm({ onBack, credentials }) {
+export default function PreferencesForm(props) {
   const classes = useStyles();
   const { registerUser } = useAuth();
+  const router = useRouter();
   const { register, errors, handleSubmit } = useForm();
   const { position, getCurrentPosition } = usePosition();
-  const [ locked, setLocked ] = useState(false);
+  const [locked, setLocked] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [image, setImage] = useState(null);
@@ -83,7 +85,7 @@ export default function PreferencesForm({ onBack, credentials }) {
   };
 
   const onSubmit = async (data) => {
-    //state fields validations
+    //validations
     if (gender === "") {
       alert("Género obligatorio");
       return;
@@ -107,7 +109,7 @@ export default function PreferencesForm({ onBack, credentials }) {
     setLocked(true);
     const { name, birthdate, description } = data;
     const user = {
-      ...credentials,
+      ...props.credentials,
       name,
       description,
       birthdate,
@@ -133,16 +135,17 @@ export default function PreferencesForm({ onBack, credentials }) {
       form_data.append(key, user[key]);
     }
 
+    //api request
     try {
-      console.log("user:", user);
-      await registerUser(form_data, setMessages, setStatus);
-      
-      setLocked(false);
+      const response = await registerUser(form_data);
+      setStatus(response.status);
+      setMessages(response.messages);
 
+      if (user) router.push(Routes.HOME);
     } catch (e) {
-      alert(e);
-      setLocked(false);
+      console.log(e);
     }
+    setLocked(false);
   };
 
   const handleImage = (image) => {
@@ -155,268 +158,269 @@ export default function PreferencesForm({ onBack, credentials }) {
 
   return (
     <>
-    <SimpleNav/>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className={classes.titleWrapper}>
-        <Typography className={classes.title} component="h1" variant="h4">
-          INFORMACION PERSONAL
-        </Typography>
-      </div>
-      <ErrorMessages messages={messages} />
-      {status === "success" && (
-        <Alert severity="success">
-          <strong>Registrado correctamente.</strong>
-        </Alert>
-      )}
-      <Grid className={classes.root} container>
-        <Grid container>
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            item
-            xs={12}
-            sm={4}
-          >
-            <Grid className={classes.field}>
-              <TextField
-                type="text"
-                // defaultValue={props.location ? props.location.propData.title : ""}
-                inputRef={register({
-                  required: true,
-                })}
-                helperText={
-                  errors.name?.type === "required" && "*Nombre obligatorio"
-                }
-                variant="outlined"
-                id="name"
-                name="name"
-                label="Nombre"
-                autoComplete="billing address-line1"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid className={classes.field}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DatePicker
+      <SimpleNav />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={classes.titleWrapper}>
+          <Typography className={classes.title} component="h1" variant="h4">
+            INFORMACION PERSONAL
+          </Typography>
+        </div>
+        <ErrorMessages messages={messages} />
+        {status === "success" && (
+          <Alert severity={"success"}>
+            <strong>Registrado correctamente.</strong>
+          </Alert>
+        )}
+        <Grid className={classes.root} container>
+          <Grid container>
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+            >
+              <Grid className={classes.field}>
+                <TextField
+                  type="text"
+                  // defaultValue={props.location ? props.location.propData.title : ""}
                   inputRef={register({
                     required: true,
                   })}
                   helperText={
-                    errors.birthdate?.type === "required" &&
-                    "*Fecha obligatoria"
+                    errors.name?.type === "required" && "*Nombre obligatorio"
                   }
-                  name="birthdate"
-                  label="Fecha de nacimiento"
-                  inputVariant="outlined"
-                  views={["date"]}
-                  hideTabs={true}
-                  format="yyyy-MM-dd hh:mm:ss"
-                  minDate={new Date(2020 - 80, 2, 2)}
-                  maxDate={new Date(2020 - 18, 2, 2)}
-                  value={selectedDate}
-                  onChange={handleDateChange}
+                  variant="outlined"
+                  id="name"
+                  name="name"
+                  label="Nombre"
+                  autoComplete="billing address-line1"
+                  variant="outlined"
                 />
-              </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid className={classes.field}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <DatePicker
+                    inputRef={register({
+                      required: true,
+                    })}
+                    helperText={
+                      errors.birthdate?.type === "required" &&
+                      "*Fecha obligatoria"
+                    }
+                    name="birthdate"
+                    label="Fecha de nacimiento"
+                    inputVariant="outlined"
+                    views={["date"]}
+                    hideTabs={true}
+                    format="yyyy-MM-dd hh:mm:ss"
+                    minDate={new Date(2020 - 80, 2, 2)}
+                    maxDate={new Date(2020 - 18, 2, 2)}
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid className={classes.field}>
+                <ImageUpload handleImage={handleImage} cardName="Input Image" />
+              </Grid>
+              <Grid className={classes.field}>
+                <ButtonBase
+                  style={{
+                    backgroundColor: position ? "#ffa50061" : "lightgray",
+                    width: "200px",
+                    height: "40px",
+                    borderRadius: "7px",
+                  }}
+                  onClick={getCurrentPosition}
+                >
+                  <LocationCityOutlined />
+                </ButtonBase>
+              </Grid>
             </Grid>
-            <Grid className={classes.field}>
-              <ImageUpload handleImage={handleImage} cardName="Input Image" />
+
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+            >
+              <Grid className={classes.selector}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel>Género</InputLabel>
+                  <Select
+                    inputProps={{
+                      name: "gender",
+                      id: "uncontrolled-native",
+                    }}
+                    onChange={handleGender}
+                    label="Género"
+                    value={gender}
+                  >
+                    <MenuItem value={"male"}>Hombre</MenuItem>
+                    <MenuItem value={"female"}>Mujer</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    {errors.gender?.type === "required" &&
+                      "*Nombre obligatorio"}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+
+              <Grid className={classes.selector}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel>Me interesa</InputLabel>
+                  <Select
+                    inputProps={{
+                      name: "preferrence",
+                      id: "uncontrolled-native",
+                    }}
+                    label="Me interesa"
+                    onChange={(event) => {
+                      setPreferredGender(event.target.value);
+                    }}
+                    value={preferredGender}
+                  >
+                    <MenuItem value={"male"}>Hombre</MenuItem>
+                    <MenuItem value={"female"}>Mujer</MenuItem>
+                  </Select>
+                  <FormHelperText>
+                    {errors.preferrence?.type === "required" &&
+                      "*Preferencia obligatoria"}
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid container className={classes.field}>
+                <AgeRange
+                  ageRange={ageRange}
+                  handleAgeRange={(ageRange) => {
+                    setAgeRange(ageRange);
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid className={classes.field}>
-              <ButtonBase
-                style={{
-                  backgroundColor: position ? "#ffa50061" : "lightgray",
-                  width: "200px",
-                  height: "40px",
-                  borderRadius: "7px",
-                }}
-                onClick={getCurrentPosition}
+
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+            >
+              <Grid className={classes.field}>
+                <TextField
+                  type="text"
+                  // defaultValue={props.location ? props.location.propData.title : ""}
+                  inputRef={register({
+                    required: true,
+                  })}
+                  helperText={
+                    errors.title?.type === "maxLength" && "título olbigatorio"
+                  }
+                  variant="outlined"
+                  id="description"
+                  name="description"
+                  label="Acerca de mí"
+                  autoComplete="billing address-line1"
+                  variant="outlined"
+                />
+              </Grid>
+
+              <Grid className={classes.field}>
+                <Trigger
+                  label="musica"
+                  handleOpen={() => {
+                    showMusic(true);
+                  }}
+                />
+              </Grid>
+              <Grid className={classes.field}>
+                <Trigger
+                  label="películas"
+                  handleOpen={() => {
+                    showMovie(true);
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            alignItems="center"
+            style={{ height: 100, width: "100%" }}
+          >
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+            ></Grid>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+            ></Grid>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              item
+              xs={12}
+              sm={4}
+            >
+              <Button
+                onClick={props.onBack}
+                variant="outlined"
+                style={{ marginRight: 12 }}
               >
-                <LocationCityOutlined />
-              </ButtonBase>
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            item
-            xs={12}
-            sm={4}
-          >
-            <Grid className={classes.selector}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>Género</InputLabel>
-                <Select
-                  inputProps={{
-                    name: "gender",
-                    id: "uncontrolled-native",
-                  }}
-                  onChange={handleGender}
-                  label="Género"
-                  value={gender}
-                >
-                  <MenuItem value={"male"}>Hombre</MenuItem>
-                  <MenuItem value={"female"}>Mujer</MenuItem>
-                </Select>
-                <FormHelperText>
-                  {errors.gender?.type === "required" && "*Nombre obligatorio"}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-
-            <Grid className={classes.selector}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>Me interesa</InputLabel>
-                <Select
-                  inputProps={{
-                    name: "preferrence",
-                    id: "uncontrolled-native",
-                  }}
-                  label="Me interesa"
-                  onChange={(event) => {
-                    setPreferredGender(event.target.value);
-                  }}
-                  value={preferredGender}
-                >
-                  <MenuItem value={"male"}>Hombre</MenuItem>
-                  <MenuItem value={"female"}>Mujer</MenuItem>
-                </Select>
-                <FormHelperText>
-                  {errors.preferrence?.type === "required" &&
-                    "*Preferencia obligatoria"}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid container className={classes.field}>
-              <AgeRange
-                ageRange={ageRange}
-                handleAgeRange={(ageRange) => {
-                  setAgeRange(ageRange);
-                }}
-              />
-            </Grid>
-          </Grid>
-
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            item
-            xs={12}
-            sm={4}
-          >
-            <Grid className={classes.field}>
-              <TextField
-                type="text"
-                // defaultValue={props.location ? props.location.propData.title : ""}
-                inputRef={register({
-                  required: true,
-                })}
-                helperText={
-                  errors.title?.type === "maxLength" && "título olbigatorio"
-                }
-                variant="outlined"
-                id="description"
-                name="description"
-                label="Acerca de mí"
-                autoComplete="billing address-line1"
-                variant="outlined"
-              />
-            </Grid>
-
-            <Grid className={classes.field}>
-              <Trigger
-                label="musica"
-                handleOpen={() => {
-                  showMusic(true);
-                }}
-              />
-            </Grid>
-            <Grid className={classes.field}>
-              <Trigger
-                label="películas"
-                handleOpen={() => {
-                  showMovie(true);
-                }}
-              />
+                Volver
+              </Button>
+              <Button
+                disabled={locked}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Confirmar
+              </Button>
             </Grid>
           </Grid>
         </Grid>
-
-        <Grid
-          container
-          alignItems="center"
-          style={{ height: 100, width: "100%" }}
-        >
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            item
-            xs={12}
-            sm={4}
-          ></Grid>
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            item
-            xs={12}
-            sm={4}
-          ></Grid>
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            item
-            xs={12}
-            sm={4}
-          >
-            <Button
-              onClick={onBack}
-              variant="outlined"
-              style={{ marginRight: 12 }}
-            >
-              Volver
-            </Button>
-            <Button
-              disabled={locked}
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              Confirmar
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
-      <GenrePicker
-        genres={["rock", "urban", "punk", "electro", "country"]}
-        selectedGenres={selectedMusic}
-        onItemClick={(genre) => {
-          selectMusic(intercalate(selectedMusic, genre));
-        }}
-        open={music}
-        handleClose={() => {
-          showMusic(false);
-        }}
-      />
-      <GenrePicker
-        genres={["terror", "romance", "comedia"]}
-        selectedGenres={selectedMovies}
-        onItemClick={(genre) => {
-          selectMovies(intercalate(selectedMovies, genre));
-        }}
-        open={movie}
-        handleClose={() => {
-          showMovie(false);
-        }}
-      />
-    </form>
+        <GenrePicker
+          genres={["rock", "urban", "punk", "electro", "country"]}
+          selectedGenres={selectedMusic}
+          onItemClick={(genre) => {
+            selectMusic(intercalate(selectedMusic, genre));
+          }}
+          open={music}
+          handleClose={() => {
+            showMusic(false);
+          }}
+        />
+        <GenrePicker
+          genres={["terror", "romance", "comedia"]}
+          selectedGenres={selectedMovies}
+          onItemClick={(genre) => {
+            selectMovies(intercalate(selectedMovies, genre));
+          }}
+          open={movie}
+          handleClose={() => {
+            showMovie(false);
+          }}
+        />
+      </form>
     </>
   );
 }

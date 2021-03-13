@@ -7,7 +7,7 @@ export default function Register() {
   const [credentials, setCredentials] = useState(null);
 
   const switchScreen = () => {
-    const newStep = step == "credentials" ? "preferences" : "credentials";
+    const newStep = step === "credentials" ? "preferences" : "credentials";
     setStep(newStep);
   };
 
