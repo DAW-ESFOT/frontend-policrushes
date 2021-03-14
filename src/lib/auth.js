@@ -19,12 +19,28 @@ export const useAuth = () => {
 
 function useAuthProvider() {
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    console.log("provider reset");
+    if (!user) {
+      const userCookie = Cookies.get("user");
+      if (userCookie) {
+        const userObject = JSON.parse(userCookie.toString());
+        console.log("user recovered from cookie", userObject);
+        setUser(userObject);
+      } else {
+        session();
+      }
+    }
+  }, []);
 
   const handleUser = (user) => {
     if (user) {
       setUser(user);
       Cookies.set("token", user.token, {
         expires: 0.001, // days
+      });
+      Cookies.set("user", user, {
+        expires: 0.01, // days
       });
       //tengo sesión activa
       return user;
@@ -86,6 +102,9 @@ function useAuthProvider() {
     } catch (error) {
       console.log("logout error:", error);
     }
+
+    Cookies.remove("user");
+    Cookies.remove("token");
     handleUser(false);
   }
 
