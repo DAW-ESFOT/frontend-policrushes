@@ -38,6 +38,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop:'4px',
         color:'black'
     },
+    btn:{
+        border: '1px solid gray',
+        borderRadius: '4px',
+        padding: '9px',
+    },
+    btn2:{
+        marginLeft: '40%'
+    }
 
 }));
 
@@ -103,14 +111,11 @@ const ModalRules = () => {
                     </DialogContentText>
                 </DialogContent>
 
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose} color="primary">
-                        Cancelar
+                <DialogContentText className={classes.btn2}>
+                    <Button onClick={handleClose} color="primary" className={classes.btn}>
+                        <strong>Aceptar</strong>
                     </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Aceptar
-                    </Button>
-                </DialogActions>
+                </DialogContentText>
             </Dialog>
         </div>
     );
