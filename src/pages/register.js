@@ -25,6 +25,9 @@ export default function Register() {
       ) : (
         <PreferencesForm
           credentials={credentials}
+          onConfirm={() => {
+            switchScreen();
+          }}
           onBack={() => {
             switchScreen();
           }}

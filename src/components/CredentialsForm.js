@@ -5,9 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
+import { Link as MuiLink } from "@material-ui/core";
+import Link from "next/link";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
+import Routes from "@/constants/routes";
 
 const img = {
   width: "100%",
@@ -48,9 +51,9 @@ export default function CredentialsForm({ onConfirm, credentials }) {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
-        <Link className={classes.link} to="https://material-ui.com/">
+        <MuiLink className={classes.link} to="https://material-ui.com/">
           Responsive Creations
-        </Link>{" "}
+        </MuiLink>{" "}
         {new Date().getFullYear()}
         {"."}
       </Typography>
@@ -68,7 +71,7 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             </div>
           </div>
           <Typography component="h1" variant="h4">
-            CREAR CUENTA
+            REGISTRARSE
           </Typography>
 
           <Typography component="h2" variant="h5">
@@ -133,6 +136,22 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             >
               Continuar
             </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href={Routes.REGISTER} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Olvidé mi contraseña"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href={Routes.LOGIN} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Ya tengo una cuenta"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+            </Grid>
           </div>
         </div>
         <Box mt={8}>

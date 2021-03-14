@@ -141,11 +141,14 @@ export default function PreferencesForm(props) {
       setStatus(response.status);
       setMessages(response.messages);
 
-      if (response.status == "success") router.push(Routes.HOME);
-      
+      if (response.status == "success") {
+        props.onConfirm();
+        router.push(Routes.HOME);
+      }
     } catch (e) {
       console.log(e);
     }
+    props.onConfirm();
     setLocked(false);
   };
 

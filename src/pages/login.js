@@ -5,7 +5,9 @@ import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
+import { Link as MuiLink } from "@material-ui/core";
+import Link from "next/link";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/lib/auth";
@@ -53,9 +55,9 @@ export default function Login() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
-        <Link className={classes.link} to="https://material-ui.com/">
+        <MuiLink className={classes.link} to="https://material-ui.com/">
           Responsive Creations
-        </Link>{" "}
+        </MuiLink>{" "}
         {new Date().getFullYear()}
         {"."}
       </Typography>
@@ -117,6 +119,8 @@ export default function Login() {
               id="password"
               autoComplete="password"
             />
+            <div style={{height:56,margin:"12px auto"}}
+            />
             <Button
               type="submit"
               fullWidth
@@ -126,6 +130,22 @@ export default function Login() {
             >
               Entrar
             </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href={Routes.REGISTER} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Olvidé mi contraseña"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href={Routes.REGISTER} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Crear una cuenta"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+            </Grid>
           </div>
         </div>
         <Box mt={8}>
@@ -135,3 +155,6 @@ export default function Login() {
     </Container>
   );
 }
+<Link href={Routes.ARTICLES} passHref>
+  <MuiLink>Articles</MuiLink>
+</Link>;
