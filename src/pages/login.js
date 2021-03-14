@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/router";
 import Routes from "@/constants/routes";
+import Alert from "@material-ui/lab/Alert";
 
 const img = {
   width: "100%",
@@ -45,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
-  const { login, error } = useAuth();
+  const { login } = useAuth();
+  const [message, setMessage] = useState(null);
   const router = useRouter();
   const { register, handleSubmit } = useForm();
 
@@ -65,8 +67,11 @@ export default function Login() {
   }
 
   const onSubmit = async (data) => {
+    setMessage(null);
     const response = await login(data);
     if (response.status == "success") router.push(Routes.HOME);
+
+    setMessage(response.message);
   };
 
   return (
@@ -88,6 +93,11 @@ export default function Login() {
           </Typography>
 
           <div className={classes.form}>
+            {message && (
+              <Alert severity={"error"}>
+                <strong>{message}</strong>
+              </Alert>
+            )}
             <TextField
               // defaultValue={credentials ? credentials.email : ""}
               variant="outlined"
@@ -119,8 +129,7 @@ export default function Login() {
               id="password"
               autoComplete="password"
             />
-            <div style={{height:56,margin:"12px auto"}}
-            />
+            <div style={{ height: 56, margin: "12px auto" }} />
             <Button
               type="submit"
               fullWidth

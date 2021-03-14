@@ -59,11 +59,16 @@ function useAuthProvider() {
       return { status: "success" };
     } catch (error) {
       if (error.response) {
-        return { status: "error", messages: error.response };
+        return {
+          status: "error",
+          message: translateMessage(error.response.data.message),
+        };
       } else if (error.request) {
-        return { status: "error", messages: error.request };
+        console.log("error.request", error.request);
+        return { status: "error", message: null };
       } else {
-        return { status: "error", messages: error.config };
+        console.log("error.config", error.config);
+        return { status: "error", message: null };
       }
     }
   }
