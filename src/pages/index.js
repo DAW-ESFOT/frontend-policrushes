@@ -6,6 +6,7 @@ import PreferencesForm from "@/components/PreferencesForm";
 export default function Home() {
   return (
     <div>
+      <Landing />
       <PreferencesForm />
     </div>
   );
