@@ -23,8 +23,8 @@ function useAuthProvider() {
   const handleUser = (user) => {
     if (user) {
       setUser(user);
-      Cookies.set("token", true, {
-        expires: 0.001, // dia
+      Cookies.set("token", user.token, {
+        expires: 0.001, // days
       });
       //tengo sesión activa
       return user;
@@ -39,9 +39,7 @@ function useAuthProvider() {
   async function login(data) {
     try {
       const response = await publicApi.post("/login", data);
-      console.log("response.data.user:", response);
       handleUser(response.data.user);
-      Cookies.set("token", response.data.user.token);
       return { status: "success" };
     } catch (error) {
       if (error.response) {
@@ -76,12 +74,19 @@ function useAuthProvider() {
 
   async function logout() {
     try {
-      const response = await api.post("/logout");
-      handleUser(false);
-      return response;
+      const token = Cookies.get("token");
+
+      const response = api.post("/logout", {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+
+      console.log("logout success:", response);
     } catch (error) {
-      handleUser(false);
+      console.log("logout error:", error);
     }
+    handleUser(false);
   }
 
   async function getAuthenticatedUser() {
@@ -92,10 +97,10 @@ function useAuthProvider() {
           Authorization: `bearer ${token}`,
         },
       });
-      handleUser(response.data.user);
-      return response;
+      const user = response?.data?.user || null;
+      console.log("auth user", user);
+      return { status: "success", user };
     } catch (error) {
-      handleUser(false);
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -114,15 +119,28 @@ function useAuthProvider() {
       }
       console.log(error.config);
     }
+    return { status: "error" };
+  }
+
+  async function session() {
+    setUser(null);
+    try {
+      const token = Cookies.get("token");
+      const response = await api.get("/session", {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+      handleUser(response.data.user);
+    } catch (e) {
+      handleUser(false);
+      console.log("session check error", e);
+    }
   }
 
   useEffect(() => {
-    try {
-      getAuthenticatedUser();
-    } catch (error) {
-      console.log("NO USER");
-    }
-  }, []);
+    console.log("user changed to:", user);
+  }, [user]);
 
   return {
     user,
@@ -130,5 +148,6 @@ function useAuthProvider() {
     login,
     logout,
     getAuthenticatedUser,
+    session,
   };
 }

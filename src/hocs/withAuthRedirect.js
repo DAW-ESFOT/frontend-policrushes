@@ -1,3 +1,4 @@
+ import { useEffect } from 'react';
  import { useAuth } from "@/lib/auth";
  import Loading from "@/components/Loading";
  import Routes from "@/constants/routes";
@@ -10,8 +11,12 @@
    location,
  }) {
    return (props) => {
-     const { user } = useAuth();
+     const { user, session } = useAuth();
      const router = useRouter();
+
+     useEffect(() => {
+      session();
+      }, []);
  
      if (user === null) {
        return <LoadingComponent />;

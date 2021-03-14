@@ -141,7 +141,8 @@ export default function PreferencesForm(props) {
       setStatus(response.status);
       setMessages(response.messages);
 
-      if (user) router.push(Routes.HOME);
+      if (response.status == "success") router.push(Routes.HOME);
+      
     } catch (e) {
       console.log(e);
     }

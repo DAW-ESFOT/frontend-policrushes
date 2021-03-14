@@ -63,12 +63,8 @@ export default function Login() {
   }
 
   const onSubmit = async (data) => {
-    console.log("login form data", data);
-    const user = await login(data);
-    if (user) {
-      console.log("redirecting");
-      router.push(Routes.HOME);
-    }
+    const response = await login(data);
+    if (response.status == "success") router.push(Routes.HOME);
   };
 
   return (
