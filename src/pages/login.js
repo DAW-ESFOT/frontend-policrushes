@@ -14,6 +14,7 @@ import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/router";
 import Routes from "@/constants/routes";
 import Alert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const img = {
   width: "100%",
@@ -50,6 +51,7 @@ export default function Login() {
   const [message, setMessage] = useState(null);
   const router = useRouter();
   const { register, handleSubmit } = useForm();
+  const [locked, setLocked] = useState(false);
 
   function Copyright() {
     const classes = useStyles();
@@ -68,9 +70,11 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     setMessage(null);
+    setLocked(true);
     const response = await login(data);
     if (response.status == "success") router.push(Routes.HOME);
 
+    setLocked(false);
     setMessage(response.message);
   };
 
@@ -129,10 +133,17 @@ export default function Login() {
               id="password"
               autoComplete="password"
             />
-            <div style={{ height: 56, margin: "12px auto" }} />
+            <div style={{ height: 56, margin: "12px auto" }}>
+              {locked && (
+                <Grid item align="center">
+                  <CircularProgress color="primary" />
+                </Grid>
+              )}
+            </div>
             <Button
               type="submit"
               fullWidth
+              disabled={locked}
               variant="contained"
               color="primary"
               className={classes.submit}

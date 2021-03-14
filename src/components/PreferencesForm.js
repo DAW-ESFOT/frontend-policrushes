@@ -25,6 +25,7 @@ import Typography from "@material-ui/core/Typography";
 import SimpleNav from "../components/SimpleNav";
 import { useRouter } from "next/router";
 import Routes from "@/constants/routes";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const intercalate = (array, element) => {
   const isSelected = array.includes(element);
@@ -148,7 +149,6 @@ export default function PreferencesForm(props) {
     } catch (e) {
       console.log(e);
     }
-    props.onConfirm();
     setLocked(false);
   };
 
@@ -168,6 +168,15 @@ export default function PreferencesForm(props) {
           <Typography className={classes.title} component="h1" variant="h4">
             INFORMACION PERSONAL
           </Typography>
+        </div>
+        <div style={{ display: "flex" }}>
+          <div style={{ height: 50, margin: "0px auto" }}>
+            {locked && (
+              <Grid item align="center">
+                <CircularProgress color="primary" />
+              </Grid>
+            )}
+          </div>
         </div>
         <ErrorMessages messages={messages} />
         {status === "success" && (
@@ -397,7 +406,7 @@ export default function PreferencesForm(props) {
                 color="primary"
                 type="submit"
               >
-                Confirmar
+                ok
               </Button>
             </Grid>
           </Grid>

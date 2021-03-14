@@ -73,6 +73,26 @@ function useAuthProvider() {
     }
   }
 
+  async function checkCredentials(credentials) {
+    try {
+      const response = await publicApi.post("/check", credentials);
+      return { status: "success" };
+    } catch (error) {
+      if (error.response) {
+        return {
+          status: "error",
+          message: translateMessage(error.response.data.message),
+        };
+      } else if (error.request) {
+        console.log("error.request", error.request);
+        return { status: "error", message: null };
+      } else {
+        console.log("error.config", error.config);
+        return { status: "error", message: null };
+      }
+    }
+  }
+
   async function registerUser(form_data) {
     try {
       const response = await publicApi.post("/register", form_data, {
@@ -82,7 +102,7 @@ function useAuthProvider() {
           "Content-Type": `multipart/form-data;`,
         },
       });
-      handleUser(response.data);
+      handleUser(...response.data);
       return { status: "success" };
     } catch (e) {
       if (e.response) {
@@ -173,5 +193,6 @@ function useAuthProvider() {
     logout,
     getAuthenticatedUser,
     session,
+    checkCredentials
   };
 }
