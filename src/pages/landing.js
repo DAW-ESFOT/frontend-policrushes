@@ -3,6 +3,8 @@ import styles from "../styles/landing.module.css";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import Routes from "@/constants/routes";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   ButtonSesion: {
@@ -24,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
     textShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
   },
   ButtonCuenta: {
+    backgroundColor: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.main,
+    },
     position: `absolute`,
     top: `384px`,
     left: `623px`,
@@ -42,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Landing = () => {
   const classes = useStyles();
+  const router = useRouter();
+
   return (
     <Container fixed>
       <div>
@@ -57,13 +65,23 @@ const Landing = () => {
         <img src="/logo.png" alt="Poli Logo" className={styles.logopoli} />
         <p className={styles.ppoli}>poliCrush</p>
         <Button
+          onClick={() => {
+            router.push(Routes.REGISTER);
+          }}
           className={classes.ButtonCuenta}
           color="primary"
           variant="contained"
         >
           CREAR UNA CUENTA
         </Button>
-        <Button className={classes.ButtonSesion}>Iniciar Sesion</Button>
+        <Button
+          onClick={() => {
+            router.push(Routes.LOGIN);
+          }}
+          className={classes.ButtonSesion}
+        >
+          Iniciar Sesion
+        </Button>
         <img
           style={{
             position: `absolute`,
