@@ -23,6 +23,7 @@ import Alert from "@material-ui/lab/Alert";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 import SimpleNav from "../components/SimpleNav";
+import ModalRules from "@/components/ModalRules";
 
 
 const intercalate = (array, element) => {
@@ -149,7 +150,8 @@ export default function PreferencesForm({ onBack, credentials }) {
 
   return (
     <>
-    <SimpleNav/>
+      <ModalRules/>
+      <SimpleNav/>
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.titleWrapper}>
         <Typography className={classes.title} component="h1" variant="h4">
