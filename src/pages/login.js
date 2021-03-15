@@ -5,10 +5,10 @@ import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/lib/auth";
+import Link from "next/link";
 
 const img = {
   width: "100%",
@@ -127,12 +127,17 @@ export default function Login() {
             >
               Continuar
             </Button>
+            <div>
+                  Olvidaste tu contraseña?
+
+            </div>
           </div>
         </div>
         <Box mt={8}>
           <Copyright />
         </Box>
       </form>
+
     </Container>
   );
 }

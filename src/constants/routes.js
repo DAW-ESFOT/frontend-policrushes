@@ -4,6 +4,7 @@ const publicRoutes = {
   USERS: "/users",
   USERS_ID: `/usuario/:id`,
   ABOUT: "/about",
+  RESET: "/reset-password",
 };
 
 const privateRoutes = {
