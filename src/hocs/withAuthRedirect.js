@@ -20,7 +20,7 @@ export default function withAuthRedirect({
     const isAuthenticated = !!user;
     const shouldRedirect = expectedAuth !== isAuthenticated;
     if (shouldRedirect) {
-      router.push(location || Routes.LOGIN); // todo set from location
+      router.push(location || Routes.LANDING); // todo set from location
       return null;
     }
     return <WrappedComponent {...props} />;
