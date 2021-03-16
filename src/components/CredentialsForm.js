@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Link from "@material-ui/core/Link";
+import { Link as MuiLink } from "@material-ui/core";
+import Link from "next/link";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
+import Routes from "@/constants/routes";
+import { useAuth } from "@/lib/auth";
+import Alert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const img = {
   width: "100%",
@@ -40,7 +46,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CredentialsForm({ onConfirm, credentials }) {
   const classes = useStyles();
+  const { checkCredentials } = useAuth();
   const { register, handleSubmit } = useForm();
+  const [message, setMessage] = useState(null);
+  const [locked, setLocked] = useState(false);
 
   function Copyright() {
     const classes = useStyles();
@@ -48,18 +57,30 @@ export default function CredentialsForm({ onConfirm, credentials }) {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
-        <Link className={classes.link} to="https://material-ui.com/">
+        <MuiLink className={classes.link} to="https://material-ui.com/">
           Responsive Creations
-        </Link>{" "}
+        </MuiLink>{" "}
         {new Date().getFullYear()}
         {"."}
       </Typography>
     );
   }
 
+  const onSubmit = async (data) => {
+    setMessage(null);
+    setLocked(true);
+    const response = await checkCredentials(data);
+    if (response.status === "success") {
+      console.log("success");
+      onConfirm(data);
+    }
+    setLocked(false);
+    setMessage(response.message);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
-      <form onSubmit={handleSubmit(onConfirm)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <CssBaseline />
         <div className={classes.paper}>
           <div className={classes.avatar}>
@@ -68,7 +89,7 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             </div>
           </div>
           <Typography component="h1" variant="h4">
-            CREAR CUENTA
+            REGISTRARSE
           </Typography>
 
           <Typography component="h2" variant="h5">
@@ -76,6 +97,18 @@ export default function CredentialsForm({ onConfirm, credentials }) {
           </Typography>
 
           <div className={classes.form}>
+            <div style={{ height: 56, margin: "0px auto" }}>
+              {locked && (
+                <Grid item align="center">
+                  <CircularProgress color="primary" />
+                </Grid>
+              )}
+            </div>
+            {message && (
+              <Alert severity={"error"}>
+                <strong>{message}</strong>
+              </Alert>
+            )}
             <TextField
               defaultValue={credentials ? credentials.email : ""}
               variant="outlined"
@@ -126,6 +159,7 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             />
             <Button
               type="submit"
+              disabled={locked}
               fullWidth
               variant="contained"
               color="primary"
@@ -133,6 +167,22 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             >
               Continuar
             </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href={Routes.REGISTER} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Olvidé mi contraseña"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href={Routes.LOGIN} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Ya tengo una cuenta"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+            </Grid>
           </div>
         </div>
         <Box mt={8}>

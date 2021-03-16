@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { Link as MuiLink } from "@material-ui/core";
+import Link from "next/link";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/lib/auth";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import Routes from "@/constants/routes";
+import Alert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const img = {
   width: "100%",
@@ -41,8 +47,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const { login } = useAuth();
+  const [message, setMessage] = useState(null);
+  const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const { login, getAuthenticatedUser } = useAuth();
+  const [locked, setLocked] = useState(false);
 
   function Copyright() {
     const classes = useStyles();
@@ -50,22 +59,23 @@ export default function Login() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
-        <Link className={classes.link} to="https://material-ui.com/">
+        <MuiLink className={classes.link} to="https://material-ui.com/">
           Responsive Creations
-        </Link>{" "}
+        </MuiLink>{" "}
         {new Date().getFullYear()}
         {"."}
       </Typography>
     );
   }
 
-  const onSuccess = async (token) => {
-    const user = await getAuthenticatedUser(token);
-  };
+  const onSubmit = async (data) => {
+    setMessage(null);
+    setLocked(true);
+    const response = await login(data);
+    if (response.status == "success") router.push(Routes.HOME);
 
-  const onSubmit = (data) => {
-    console.log("login form data", data);
-    login(data, onSuccess);
+    setLocked(false);
+    setMessage(response.message);
   };
 
   return (
@@ -87,6 +97,11 @@ export default function Login() {
           </Typography>
 
           <div className={classes.form}>
+            {message && (
+              <Alert severity={"error"}>
+                <strong>{message}</strong>
+              </Alert>
+            )}
             <TextField
               // defaultValue={credentials ? credentials.email : ""}
               variant="outlined"
@@ -118,19 +133,39 @@ export default function Login() {
               id="password"
               autoComplete="password"
             />
+            <div style={{ height: 56, margin: "12px auto" }}>
+              {locked && (
+                <Grid item align="center">
+                  <CircularProgress color="primary" />
+                </Grid>
+              )}
+            </div>
             <Button
               type="submit"
               fullWidth
+              disabled={locked}
               variant="contained"
               color="primary"
               className={classes.submit}
             >
-              Continuar
+              Entrar
             </Button>
-            <div>
-                  Olvidaste tu contraseña?
-
-            </div>
+            <Grid container>
+              <Grid item xs>
+                <Link href={Routes.REGISTER} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Olvidé mi contraseña"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href={Routes.REGISTER} passHref>
+                  <MuiLink className={classes.link}>
+                    {"Crear una cuenta"}
+                  </MuiLink>
+                </Link>
+              </Grid>
+            </Grid>
           </div>
         </div>
         <Box mt={8}>
@@ -141,3 +176,6 @@ export default function Login() {
     </Container>
   );
 }
+<Link href={Routes.ARTICLES} passHref>
+  <MuiLink>Articles</MuiLink>
+</Link>;

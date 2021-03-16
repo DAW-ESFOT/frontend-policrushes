@@ -1,12 +1,14 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import Register from "../pages/register";
-import PreferencesForm from "@/components/PreferencesForm";
+import React, { useEffect } from "react";
+import { useAuth } from "@/lib/auth";
+import { useRouter } from "next/router";
+import Routes from "@/constants/routes";
 
 export default function Home() {
-  return (
-    <div>
-      <PreferencesForm />
-    </div>
-  );
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(user ? Routes.HOME : Routes.LANDING);
+  }, []);
+  return <></>;
 }

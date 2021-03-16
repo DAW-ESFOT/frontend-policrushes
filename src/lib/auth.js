@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { BatteryAlert } from "@material-ui/icons";
 import { api, publicApi } from "./api";
-import cookie from "js-cookie";
+import Cookies from "js-cookie";
 import translateMessage from "@/constants/messages";
 export const AuthContext = createContext(null);
 
@@ -20,52 +19,81 @@ export const useAuth = () => {
 
 function useAuthProvider() {
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    console.log("provider reset");
+    if (!user) {
+      const userCookie = Cookies.get("user");
+      if (userCookie) {
+        const userObject = JSON.parse(userCookie.toString());
+        console.log("user recovered from cookie", userObject);
+        setUser(userObject);
+      } else {
+        session();
+      }
+    }
+  }, []);
 
   const handleUser = (user) => {
     if (user) {
       setUser(user);
-      cookie.set("auth", true, {
-        expires: 1, // dia
+      Cookies.set("token", user.token, {
+        expires: 0.001, // days
       });
-      console.log("logged user:", user);
-
+      Cookies.set("user", user, {
+        expires: 0.01, // days
+      });
+      //tengo sesión activa
       return user;
     } else {
       // no tengo sesión activa
       setUser(false);
-      cookie.remove("auth");
+      Cookies.remove("token");
       return false;
     }
   };
 
-  async function login(data, onSuccess) {
+  async function login(data) {
     try {
-      const response = await api.post("/login", data);
-      console.log("login response", response);
+      const response = await publicApi.post("/login", data);
       handleUser(response.data.user);
-      return response;
+      return { status: "success" };
     } catch (error) {
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log('login error data:',error.response.data);
-        return error.response;
+        return {
+          status: "error",
+          message: translateMessage(error.response.data.message),
+        };
       } else if (error.request) {
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        console.log(error.request);
+        console.log("error.request", error.request);
+        return { status: "error", message: null };
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", error.message);
+        console.log("error.config", error.config);
+        return { status: "error", message: null };
       }
-      console.log(error.config);
     }
   }
 
-  async function registerUser(form_data, setMessages, setStatus) {
-    setMessages(null);
-    setStatus("none");
+  async function checkCredentials(credentials) {
+    try {
+      const response = await publicApi.post("/check", credentials);
+      return { status: "success" };
+    } catch (error) {
+      if (error.response) {
+        return {
+          status: "error",
+          message: translateMessage(error.response.data.message),
+        };
+      } else if (error.request) {
+        console.log("error.request", error.request);
+        return { status: "error", message: null };
+      } else {
+        console.log("error.config", error.config);
+        return { status: "error", message: null };
+      }
+    }
+  }
+
+  async function registerUser(form_data) {
     try {
       const response = await publicApi.post("/register", form_data, {
         headers: {
@@ -74,23 +102,35 @@ function useAuthProvider() {
           "Content-Type": `multipart/form-data;`,
         },
       });
-      setStatus("success");
-      handleUser(response.data);
-      return response;
+      handleUser(...response.data);
+      return { status: "success" };
     } catch (e) {
-      console.log("error response", e.response);
-      const messages = e.response?.data?.messages || null;
-      if (!messages) return;
-      setMessages(messages);
+      if (e.response) {
+        const messages = e.response?.data?.messages || null;
+        return { status: "error", messages };
+      }
+      return { status: "error", messages: null };
     }
   }
 
   async function logout() {
     try {
-      const response = await api.post("/logout");
-      handleUser(false);
-      return response;
-    } catch (error) {}
+      const token = Cookies.get("token");
+
+      const response = api.post("/logout", {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+
+      console.log("logout success:", response);
+    } catch (error) {
+      console.log("logout error:", error);
+    }
+
+    Cookies.remove("user");
+    Cookies.remove("token");
+    handleUser(false);
   }
 
   const sendPasswordResetEmail = async (email) => {
@@ -115,16 +155,16 @@ function useAuthProvider() {
 
   async function getAuthenticatedUser(token) {
     try {
+      const token = Cookies.get("token");
       const response = await api.get("/user", {
         headers: {
           Authorization: `bearer ${token}`,
         },
       });
-      console.log("auth user", response);
-      handleUser(response.data);
-      return response;
+      const user = response?.data?.user || null;
+      console.log("auth user", user);
+      return { status: "success", user };
     } catch (error) {
-      handleUser(false);
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -143,16 +183,28 @@ function useAuthProvider() {
       }
       console.log(error.config);
     }
+    return { status: "error" };
+  }
+
+  async function session() {
+    setUser(null);
+    try {
+      const token = Cookies.get("token");
+      const response = await api.get("/session", {
+        headers: {
+          Authorization: `bearer ${token}`,
+        },
+      });
+      handleUser(response.data.user);
+    } catch (e) {
+      handleUser(false);
+      console.log("session check error", e);
+    }
   }
 
   useEffect(() => {
-    console.log("RENDER AUTH", user);
-    try {
-      getAuthenticatedUser();
-    } catch (error) {
-      console.log("NO USER");
-    }
-  }, []);
+    console.log("user changed to:", user);
+  }, [user]);
 
   return {
     user,
@@ -160,6 +212,9 @@ function useAuthProvider() {
     login,
     logout,
      sendPasswordResetEmail,
-     confirmPasswordReset
+     confirmPasswordReset,
+    getAuthenticatedUser,
+    session,
+    checkCredentials
   };
 }

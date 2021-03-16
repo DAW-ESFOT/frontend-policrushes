@@ -41,6 +41,8 @@ export default function AgeRange({ ageRange, handleAgeRange }) {
         }}
         aria-labelledby="range-slider"
         getAriaValueText={valuetext}
+        min={18}
+        max={60}
       />
     </div>
   );

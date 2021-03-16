@@ -1,14 +1,13 @@
 const publicRoutes = {
   LOGIN: "/login",
   REGISTER: "/register",
-  USERS: "/users",
-  USERS_ID: `/usuario/:id`,
   ABOUT: "/about",
   RESET: "/reset-password",
+  LANDING: "/landing",
 };
 
 const privateRoutes = {
-  HOME: "/",
+  HOME: "/home",
 };
 
 const Routes = {

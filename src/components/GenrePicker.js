@@ -96,7 +96,7 @@ export default function GenrePicker({
   return (
     <>
       <Modal
-        open={open}
+        open={open === undefined ? false : open}
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
