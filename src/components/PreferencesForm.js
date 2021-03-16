@@ -142,10 +142,8 @@ export default function PreferencesForm(props) {
       setStatus(response.status);
       setMessages(response.messages);
 
-      if (response.status == "success") {
-        props.onConfirm();
-        router.push(Routes.HOME);
-      }
+      props.onConfirm();
+      router.push(Routes.HOME);
     } catch (e) {
       console.log(e);
     }
