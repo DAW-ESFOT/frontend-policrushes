@@ -13,11 +13,11 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: `345px`,
     textAlign: `center`,
   },
   media: {
-    height: 400,
+    height: `400px`,
   },
   Card: {
     justifyContent: `center`,
@@ -102,7 +102,7 @@ export default function Geolocation() {
         <CardMedia
           className={classes.media}
           image="https://i.pinimg.com/originals/22/24/c0/2224c071c6ed67409016ab393d5900af.jpg"
-          title="Compatible"
+          title="Foto de perfil"
         />
         <CardContent>
           <Typography gutterBottom variant="body" component="h2">
