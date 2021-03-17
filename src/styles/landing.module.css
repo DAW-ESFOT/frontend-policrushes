@@ -1,0 +1,37 @@
+.logopoli {
+  width: 114px;
+  height: 102px;
+  position: absolute;
+  top: 49px;
+  left: 54px;
+}
+.ppoli {
+  position: absolute;
+  width: 380px;
+  /*height: 51px;*/
+  top: 12px;
+  left: 126px;
+  font-family: "Fredoka One", cursive;
+  font-weight: 400;
+  font-size: 72px;
+  line-height: 22px;
+  font-style: normal;
+  color: #d57485;
+  text-align: center;
+}
+
+.pinfo {
+  position: absolute;
+  top: 1101px;
+  left: 1001px;
+  margin: 0;
+  width: 384px;
+  height: 503px;
+  font-family: "Fredoka One", cursive;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 22px;
+  font-style: normal;
+  color: #2f2e41;
+  text-align: center;
+}

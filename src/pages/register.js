@@ -4,19 +4,36 @@ import PreferencesForm from "../components/PreferencesForm";
 
 export default function Register() {
   const [step, setStep] = useState("credentials");
+  const [credentials, setCredentials] = useState(null);
 
   const switchScreen = () => {
-    const newStep = step == "credentials" ? "preferences" : "credentials";
+    const newStep = step === "credentials" ? "preferences" : "credentials";
     setStep(newStep);
   };
 
   return (
     <>
       {step === "credentials" ? (
-        <CredentialsForm switchScreen={switchScreen} />
+        <CredentialsForm
+          credentials={credentials}
+          onConfirm={(credentials) => {
+            setCredentials(credentials);
+            console.log("credentials:", credentials);
+            switchScreen();
+          }}
+        />
       ) : (
-        <PreferencesForm switchScreen={switchScreen} />
+        <PreferencesForm
+          credentials={credentials}
+          onConfirm={() => {
+            switchScreen();
+          }}
+          onBack={() => {
+            switchScreen();
+          }}
+        />
       )}
+      <></>
     </>
   );
 }

@@ -12,6 +12,7 @@ import blue from "@material-ui/core/colors/blue";
 
 import SearchIcon from "@material-ui/icons/Search";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
+import PhotoOutlined from "@material-ui/icons/PhotoOutlined";
 
 // Search
 import Paper from "@material-ui/core/Paper";
@@ -26,10 +27,10 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   icon: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
   },
   iconHover: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     "&:hover": {
       color: red[800],
     },
@@ -57,7 +58,7 @@ const styles = (theme) => ({
     margin: 10,
   },
   typography: {
-    margin: theme.spacing.unit * 2,
+    margin: theme.spacing(2),
     backgroundColor: "default",
   },
 
@@ -86,7 +87,18 @@ class ImageUploadCard extends React.Component {
     mainState: "initial", // initial, search, gallery, uploaded
     imageUploaded: 0,
     selectedFile: null,
+    selectedFileUrl: null,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedFile !== this.state.selectedFile) {
+      if (!this.state.selectedFile) {
+        this.props.handleImage(null);
+        return;
+      }
+      this.props.handleImage(this.state.selectedFile);
+    }
+  }
 
   handleUploadClick = (event) => {
     var file = event.target.files[0];
@@ -95,11 +107,10 @@ class ImageUploadCard extends React.Component {
 
     reader.onloadend = function (e) {
       this.setState({
-        selectedFile: [reader.result],
+        selectedFileUrl: [reader.result],
       });
-      this.props.handleImage(reader.result);
     }.bind(this);
-    console.log(url); // Would see a path?
+    console.log("url:", url); // Would see a path?
 
     this.setState({
       mainState: "uploaded",
@@ -255,11 +266,13 @@ class ImageUploadCard extends React.Component {
     return (
       <React.Fragment>
         <CardActionArea onClick={this.imageResetHandler}>
-          <img
-            width="100%"
-            className={classes.media}
-            src={this.state.selectedFile}
-          />
+          <Fab
+            style={{ backgroundColor: "lightgreen" }}
+            component="span"
+            className={classes.button}
+          >
+            <PhotoOutlined />
+          </Fab>
         </CardActionArea>
       </React.Fragment>
     );
@@ -275,7 +288,6 @@ class ImageUploadCard extends React.Component {
   };
 
   render() {
-
     return (
       <React.Fragment>
         <div>

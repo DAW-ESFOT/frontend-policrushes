@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-  withCredentials: true,
+  withCredentials: false,
 });
 
 api.interceptors.request.use(
@@ -19,3 +19,8 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export const publicApi = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  withCredentials: false,
+});
