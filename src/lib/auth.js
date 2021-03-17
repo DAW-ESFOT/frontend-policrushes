@@ -134,7 +134,25 @@ function useAuthProvider() {
     handleUser(false);
   }
 
-  async function getAuthenticatedUser() {
+  const sendPasswordResetEmail = async (email) => {
+    await api.post("/forgot-password", { email });
+  };
+
+  const confirmPasswordReset = async (
+    email,
+    password,
+    password_confirmation,
+    token
+  ) => {
+    await api.post("/reset-password", {
+      email,
+      password,
+      password_confirmation,
+      token,
+    });
+  };
+
+  async function getAuthenticatedUser(token) {
     try {
       const token = Cookies.get("token");
       const response = await api.get("/user", {
@@ -192,6 +210,8 @@ function useAuthProvider() {
     registerUser,
     login,
     logout,
+    sendPasswordResetEmail,
+    confirmPasswordReset,
     getAuthenticatedUser,
     session,
     handleUser,

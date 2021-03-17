@@ -23,6 +23,8 @@ import Alert from "@material-ui/lab/Alert";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 import SimpleNav from "../components/SimpleNav";
+import ModalRules from "@/components/ModalRules";
+
 import { useRouter } from "next/router";
 import Routes from "@/constants/routes";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -139,10 +141,9 @@ export default function PreferencesForm(props) {
     //api request
     try {
       const response = await registerUser(form_data);
-      if(response.status == "success") router.push(Routes.HOME);
-      
-      setMessages(response.messages);
+      if (response.status == "success") router.push(Routes.HOME);
 
+      setMessages(response.messages);
     } catch (e) {
       if (e.response) setMessages(response.data.messages);
     }
@@ -159,6 +160,7 @@ export default function PreferencesForm(props) {
 
   return (
     <>
+      <ModalRules />
       <SimpleNav />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={classes.titleWrapper}>

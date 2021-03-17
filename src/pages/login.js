@@ -152,7 +152,7 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href={Routes.REGISTER} passHref>
+                <Link href={Routes.RECOVERY} passHref>
                   <MuiLink className={classes.link}>
                     {"Olvidé mi contraseña"}
                   </MuiLink>
@@ -175,6 +175,3 @@ export default function Login() {
     </Container>
   );
 }
-<Link href={Routes.ARTICLES} passHref>
-  <MuiLink>Articles</MuiLink>
-</Link>;

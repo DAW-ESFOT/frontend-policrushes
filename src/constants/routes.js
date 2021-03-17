@@ -2,6 +2,7 @@ const publicRoutes = {
   LOGIN: "/login",
   REGISTER: "/register",
   ABOUT: "/about",
+  RECOVERY: "/password-recovery",
   LANDING: "/landing",
 };
 

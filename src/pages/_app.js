@@ -4,6 +4,7 @@ import React from "react";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { AuthProvider } from "@/lib/auth";
+import { SnackbarProvider } from "notistack";
 
 //tema global
 const theme = createMuiTheme({
@@ -46,11 +47,13 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <AuthProvider>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </AuthProvider>
+    <SnackbarProvider>
+      <AuthProvider>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </AuthProvider>
+    </SnackbarProvider>
   );
 }
 
