@@ -2,7 +2,7 @@ const publicRoutes = {
   LOGIN: "/login",
   REGISTER: "/register",
   ABOUT: "/about",
-  RESET: "/reset-password",
+  RECOVERY: "/password-recovery",
   LANDING: "/landing",
 };
 

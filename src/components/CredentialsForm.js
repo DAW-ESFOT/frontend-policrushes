@@ -169,11 +169,7 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href={Routes.REGISTER} passHref>
-                  <MuiLink className={classes.link}>
-                    {"Olvidé mi contraseña"}
-                  </MuiLink>
-                </Link>
+
               </Grid>
               <Grid item>
                 <Link href={Routes.LOGIN} passHref>

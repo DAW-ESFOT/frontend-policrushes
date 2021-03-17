@@ -137,7 +137,6 @@ export default function PasswordRecovery () {
                         {/* Entrar */}
                     </Typography>
 
-                    <div className={classes.form}>
                         <TextField
                             // defaultValue={credentials ? credentials.email : ""}
                             variant="outlined"
@@ -156,6 +155,7 @@ export default function PasswordRecovery () {
                             error={!!errors.email}
                             helperText={errors.email?.message}
                         />
+
                         <Button
                             type="submit"
                             fullWidth
@@ -165,7 +165,6 @@ export default function PasswordRecovery () {
                         >
                             Enviar
                         </Button>
-                    </div>
                 </div>
                 <Box mt={8}>
                     <Copyright/>

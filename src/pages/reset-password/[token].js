@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import { Button, TextField } from "@material-ui/core";
+import {Button, Link as MuiLink, TextField} from "@material-ui/core";
 import * as yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuth } from "@/lib/auth";
@@ -60,6 +60,21 @@ const ResetPasswordPage = () => {
         resolver: yupResolver(schema),
     });
 
+    function Copyright() {
+        const classes = useStyles();
+
+        return (
+            <Typography variant="body2" color="textSecondary" align="center">
+                {"Copyright © "}
+                <MuiLink className={classes.link} to="https://material-ui.com/">
+                    Responsive Creations
+                </MuiLink>{" "}
+                {new Date().getFullYear()}
+                {"."}
+            </Typography>
+        );
+    }
+
     const onResetPassword = async ({
                                        email,
                                        password,
@@ -113,7 +128,7 @@ const ResetPasswordPage = () => {
                 <div className={classes.paper}>
                     <div className={classes.avatar}>
                         <div style={wrapper}>
-                            <img style={img} src="logo.jpeg"></img>
+                            <img style={img} src="../logo.jpeg"></img>
                         </div>
                     </div>
                     <Typography component="h1" variant="h4">
@@ -149,7 +164,7 @@ const ResetPasswordPage = () => {
                             required
                             fullWidth
                             name="password"
-                            label="Clave"
+                            label="Contraseña"
                             type="password"
                             id="password"
                             autoComplete="password"
