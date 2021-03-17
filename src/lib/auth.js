@@ -102,8 +102,9 @@ function useAuthProvider() {
           "Content-Type": `multipart/form-data;`,
         },
       });
-      handleUser(...response.data);
-      return { status: "success" };
+      Cookies.set("user", response.data.user);
+      handleUser(response.data.user);
+      return { status: "success", messages: null };
     } catch (e) {
       if (e.response) {
         const messages = e.response?.data?.messages || null;
@@ -193,6 +194,7 @@ function useAuthProvider() {
     logout,
     getAuthenticatedUser,
     session,
-    checkCredentials
+    handleUser,
+    checkCredentials,
   };
 }

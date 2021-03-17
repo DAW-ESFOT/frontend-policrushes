@@ -139,13 +139,12 @@ export default function PreferencesForm(props) {
     //api request
     try {
       const response = await registerUser(form_data);
-      setStatus(response.status);
+      if(response.status == "success") router.push(Routes.HOME);
+      
       setMessages(response.messages);
 
-      props.onConfirm();
-      router.push(Routes.HOME);
     } catch (e) {
-      console.log(e);
+      if (e.response) setMessages(response.data.messages);
     }
     setLocked(false);
   };

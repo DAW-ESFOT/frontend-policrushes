@@ -1,10 +1,16 @@
+ import React from 'react'
  import withAuthRedirect from "./withAuthRedirect";
  import Routes from "@/constants/routes";
  
- export default function withAuth(WrappedComponent, location = Routes.LANDING) {
+ const LoadingComponent  = () => {
+   return(<>...loading</>);
+ }
+
+ export default function withAuth(WrappedComponent, location = Routes.LOGIN) {
    return withAuthRedirect({
      WrappedComponent,
-     location,
+     LoadingComponent,
      expectedAuth: true,
+     location,
    });
  }
