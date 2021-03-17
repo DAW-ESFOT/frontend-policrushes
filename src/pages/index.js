@@ -10,5 +10,12 @@ export default function Home() {
   useEffect(() => {
     router.push(user ? Routes.HOME : Routes.LANDING);
   }, []);
-  return <></>;
+
+  return (
+    <div className={styles.container}>
+      <ThemeProvider theme={theme}>
+        <Register />
+      </ThemeProvider>
+    </div>
+  );
 }

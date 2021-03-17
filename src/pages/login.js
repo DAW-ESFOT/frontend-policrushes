@@ -25,6 +25,12 @@ const wrapper = {
   width: 100,
   height: 100,
 };
+  const handleLogin = async (data) => {
+    try {
+      const userData = await Auth.login({
+        email: "nolan45@hotmail.com",
+        password: "123123",
+      });
 
 const useStyles = makeStyles((theme) => ({
   paper: {
