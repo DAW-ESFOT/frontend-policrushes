@@ -85,7 +85,6 @@ export default function CredentialsForm({ onConfirm, credentials }) {
         <div className={classes.paper}>
           <div className={classes.avatar}>
             <div style={wrapper}>
-              <img style={img} src="logo.jpeg"></img>
             </div>
           </div>
           <Typography component="h1" variant="h4">

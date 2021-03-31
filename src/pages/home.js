@@ -1,16 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import withAuth from "@/hocs/withAuth";
 import { useAuth } from "@/lib/auth";
-import UserCompatible from "../components/UserCompatible";
-import UserInfo from "../components/UserCompatible";
+import { Products } from "../lib/products";
 import Button from "@material-ui/core/Button";
+import ProductsTable from "@/components/ProductsTable";
+import Typography from "@material-ui/core/Typography";
+
 
 function Home() {
   const { logout } = useAuth();
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async () => {
+    // const products = await Products.get();
+
+    console.log("products", products);
+    // setProducts(products.data);
+  };
+
   useEffect(() => {
-    setInterval(() => {
-      console.log("token check");
-    }, 60 * 1000);
+    fetchProducts();
   }, []);
 
   return (
@@ -26,11 +35,14 @@ function Home() {
       </div>
       <div
         style={{
-          margin: "0 auto",
+          margin: "0 100",
           width: "100%",
         }}
       >
-        <div>home</div>
+        <Typography align="center" variant="h4" gutterBottom>
+          Products  
+        </Typography>
+        <ProductsTable rows={products} />
       </div>
     </div>
   );
