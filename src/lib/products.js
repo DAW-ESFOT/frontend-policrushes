@@ -11,6 +11,17 @@ async function get() {
   });
 }
 
+async function getProduct(id) {
+  const token = Cookies.get("token");
+
+  return await api.get(`/products/${id}`, {
+    headers: {
+      Authorization: `bearer ${token}`,
+    },
+  });
+}
+
 export const Products = {
   get,
+  getProduct
 };

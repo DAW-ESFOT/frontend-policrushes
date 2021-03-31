@@ -88,7 +88,7 @@ export default function Login() {
             </div>
           </div>
           <Typography component="h1" variant="h4">
-            INICIAR SESION
+            LOGIN
           </Typography>
 
           <Typography component="h2" variant="h5">

@@ -8,6 +8,7 @@ const publicRoutes = {
 
 const privateRoutes = {
   HOME: "/home",
+  PRODUCT: "/product",
 };
 
 const Routes = {

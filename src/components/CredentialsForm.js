@@ -58,7 +58,7 @@ export default function CredentialsForm({ onConfirm, credentials }) {
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
         <MuiLink className={classes.link} to="https://material-ui.com/">
-          Responsive Creations
+          Final Exam
         </MuiLink>{" "}
         {new Date().getFullYear()}
         {"."}
@@ -88,7 +88,7 @@ export default function CredentialsForm({ onConfirm, credentials }) {
             </div>
           </div>
           <Typography component="h1" variant="h4">
-            REGISTRARSE
+            Register
           </Typography>
 
           <Typography component="h2" variant="h5">
